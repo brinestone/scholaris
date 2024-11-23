@@ -14,6 +14,12 @@ importers:
       '@solidjs/start':
         specifier: ^1.0.10
         version: 1.0.10(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.9.3)(ioredis@5.4.1)(terser@5.36.0)(typescript@5.7.2))(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))
+      '@xstate/solid':
+        specifier: ^1.0.0
+        version: 1.0.0(solid-js@1.9.3)(xstate@5.19.0)
+      '@xstate/store':
+        specifier: ^2.6.1
+        version: 2.6.1(solid-js@1.9.3)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.20(postcss@8.4.49)
@@ -32,6 +38,9 @@ importers:
       vinxi:
         specifier: ^0.4.3
         version: 0.4.3(@types/node@22.9.3)(ioredis@5.4.1)(terser@5.36.0)(typescript@5.7.2)
+      xstate:
+        specifier: ^5.19.0
+        version: 5.19.0
 
 packages:
 
@@ -955,6 +964,26 @@ packages:
     resolution: {integrity: sha512-kVYrOrCMHwGvHRwpaeW2/PE7URcGtz4Rk/hIHa2xjt5PGopzzB/Y5GC8YgZjtqSRqo0ElAKsEik7UE6CXH3HXA==}
     peerDependencies:
       vinxi: ^0.4.3
+
+  '@xstate/solid@1.0.0':
+    resolution: {integrity: sha512-1W0ubrAscZH7iG4cm+pDi7Va+W2Dr/Tzg2WySvzIXp93iKgRm3W0vU1cew1vj0ozFCLh9VPaZ3Koy0FX4qlBBw==}
+    peerDependencies:
+      solid-js: ^1.6.0
+      xstate: ^5.19.0
+    peerDependenciesMeta:
+      xstate:
+        optional: true
+
+  '@xstate/store@2.6.1':
+    resolution: {integrity: sha512-Gg+HA5Djf9SA/atd71y5IGGR4SPZHBaPFNwDCJ1juU5ZNIwEYywvnJ1CjX8drXiuphbE83ncfawEe3aeg6/Icw==}
+    peerDependencies:
+      react: ^18.2.0 || ^19.0.0-0
+      solid-js: ^1.7.6
+    peerDependenciesMeta:
+      react:
+        optional: true
+      solid-js:
+        optional: true
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -2685,6 +2714,9 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
+  xstate@5.19.0:
+    resolution: {integrity: sha512-Juh1MjeRaVWr1IRxXYvQMMRFMrei6vq6+AfP6Zk9D9YV0ZuvubN0aM6s2ITwUrq+uWtP1NTO8kOZmsM/IqeOiQ==}
+
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
@@ -3498,6 +3530,16 @@ snapshots:
       magicast: 0.2.11
       recast: 0.23.9
       vinxi: 0.4.3(@types/node@22.9.3)(ioredis@5.4.1)(terser@5.36.0)(typescript@5.7.2)
+
+  '@xstate/solid@1.0.0(solid-js@1.9.3)(xstate@5.19.0)':
+    dependencies:
+      solid-js: 1.9.3
+    optionalDependencies:
+      xstate: 5.19.0
+
+  '@xstate/store@2.6.1(solid-js@1.9.3)':
+    optionalDependencies:
+      solid-js: 1.9.3
 
   abbrev@1.1.1: {}
 
@@ -5367,6 +5409,8 @@ snapshots:
       strip-ansi: 7.1.0
 
   wrappy@1.0.2: {}
+
+  xstate@5.19.0: {}
 
   y18n@5.0.8: {}
 

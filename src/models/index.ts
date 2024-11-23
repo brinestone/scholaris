@@ -8,3 +8,9 @@ export type AppRoute = {
 };
 
 export type AppRoutes = AppRoute[];
+
+export type Principal = {
+  displayName: string;
+  email: string;
+  avatar: string;
+};
