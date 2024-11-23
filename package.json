@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "gen-api": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=staging)\" > src/api-sdk.ts"
   },
   "dependencies": {
     "@solidjs/router": "^0.15.0",
