@@ -9,6 +9,7 @@ export default defineConfig({
   server: {
     preset: "netlify",
   },
+  middleware: "./src/middleware.ts",
   vite: {
     resolve: {
       alias: {

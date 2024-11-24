@@ -1,9 +1,9 @@
 import { provideClient } from "@/helpers/client-provider";
 import { APIError, auth, dto } from "@/lib/api-sdk";
 import { Principal } from "@/models";
+import { useActor } from "@xstate/solid";
 import { jwtDecode } from "jwt-decode";
-import { createContext, JSX, ParentProps, useContext } from "solid-js";
-import { assign, createActor, fromPromise, setup } from "xstate";
+import { assign, fromPromise, setup } from "xstate";
 
 export enum UserStates {
   SignedOut = "signed-out",
@@ -16,7 +16,11 @@ export enum UserStates {
 export interface UserStateModel {
   accessToken?: string;
   principal?: Principal;
-  apiError?: APIError;
+  apiError?: {
+    code: string;
+    status: string;
+    message: string;
+  };
 }
 
 const defaultUserState: UserStateModel = {};
@@ -44,7 +48,7 @@ const userStore = setup({
     ),
   },
 }).createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QFdZgE4DpYEsoDtIBaHfAYlwKIHtkAXAbQAYBdRUAB2tzp2v3YgAHoiIBGJgBZMkgOwA2WQFYAHEwDMTAJyyN8gDQgAnogBMKzEq0q1Kseslb5p00qUBfd4dQZseQhA09BT+JPjMbEggXDx8AlEiCETmWpaa6g6m6qZiYnKGJggu6ph2spJiWbKm8lZK6p7eaFiU+KRQYWQQ-GCYpABu1ADWvTB0AIIAxpNwsAAqw2DhrIIxOLz8gol5spYqsrKZdirykqcFZtqYptqKYvvqWkwKko0gPi3+7Z0Y6NRYHAANgBDOgAM3+AFtMGMpjNYPNFstIpxuOs4ltEGJZGJrnUtDlnqcVOoLgh1Cc3h8-FRSEQwcCcIDIGR0GA6OgjBFVmiNvFQIlkvsyepZCpPF4QPhqBA4IIPjzYpsEqIHCUmEx5DYSScKYcyURVJgnrktPdahoDpIPJLqa1iKRFejlQKsTZMOVHnY8mJ5BTFGSJKZLFpNCctJJTGd1PIxFTmjSAkE6E6+ZikqYtEpMBqtTZ-XrScZEDprpJHgSFM48jamr5Wt9HVE1mmVUlfbiJKdJNpy9pzKYyZnpFYw-II1G-X74-XQnSGUzIKmMW3xH7MDslBIVGd7tolGS5PIc6GJPVNZmGhKgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QFdZgE4DpYEsoDtIBaHfAYlwKIHtkAXAbQAYBdRUAB2tzp2v3YgAHogBsADgAsmAKyTRATgCMMmQCZJCzaIA0IAJ6IAzEoDsmBU1FrRTJeLVTJ4gL4u9qDNjyEINehQ+JPjMbEggXDx8AuEiCPZMFjImjqZqRiZKCuJ6hvEyiWmiMqJGTAoKpuJmpm4eaFiU+KRQwWQQ-GCYpABu1ADWXTB0AIIAxmNwsAAqA2AhrIKROLz8gnEy2ZhVSjYyppJm6roGiGoaSSkKakpGksmOdSCejT4tbRjo1FgcADYAhnQAGbfAC2mGG40msBmcwWYU43BW0XWiE24m21T2ByONlyiFuSgsFQqDkkkis9iMTxe3iopCIQP+OF+kDI6DAdHQ+lCSyRqxioDipiURKU5UOpWu4jkMnxCGqmE0JMU4lEoqYNjc7hA+GoEDgghefKia1iiCIJzylswTDt9od9qUkhpDTpvmCJuRZqFiHE5UwKmsCiMplMCk2agU8pMiSM52uoilMqjrq8TWItDoXoFqIQkjUMd2mAcUZsyfUCjTrwI71IOZR5oQUekohF4mq1huzqM8t25iKJXSJi0uxdOtpTWCjOZrIgDZ9wj9AaDUdD4cj0dO8Wcgck8ajqjb4myom1LiAA */
   id: "user",
   initial: UserStates.SignedOut,
   context: defaultUserState,
@@ -89,7 +93,10 @@ const userStore = setup({
         onError: {
           target: UserStates.SignInFailed,
           actions: assign({
-            apiError: ({ event }) => event.error,
+            apiError: ({ event }) => {
+              const { code, message, status } = event.error as APIError;
+              return { status, message, code };
+            },
           }),
         },
       },
@@ -102,18 +109,17 @@ const userStore = setup({
   },
 });
 
-export type UserStoreType = typeof userStore;
-export const UserStateStoreContext = createContext();
+// export type UserStoreType = typeof userStore;
+// export const UserStateStoreContext = createContext();
 
-export function useUserStore() {
-  return useContext(UserStateStoreContext);
-}
+export const useUserStore = () => useActor(userStore);
 
-export default function UserProvider({ children }: ParentProps): JSX.Element {
-  const actor = createActor(userStore);
-  return (
-    <UserStateStoreContext.Provider value={actor}>
-      {children}
-    </UserStateStoreContext.Provider>
-  );
-}
+// export default function UserProvider({ children }: ParentProps): JSX.Element {
+//   const [actor, send] = useActor(userStore);
+
+//   return (
+//     <UserStateStoreContext.Provider value={actor}>
+//       {children}
+//     </UserStateStoreContext.Provider>
+//   );
+// }

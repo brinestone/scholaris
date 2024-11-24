@@ -1,23 +1,31 @@
+import { MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
+import { ClerkProvider, SignedIn } from "clerk-solidjs";
 import { Suspense } from "solid-js";
-import Nav from "@/components/Nav";
 import "./app.css";
-import UserProvider from "./state/user";
+import Nav from "./components/Nav";
 
 export default function App() {
   return (
-    <UserProvider>
+    <MetaProvider>
+      <Title>Scholaris</Title>
       <Router
         root={(props) => (
           <>
-            <Nav />
-            <Suspense>{props.children}</Suspense>
+            <ClerkProvider
+              publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
+            >
+              <SignedIn>
+                <Nav />
+              </SignedIn>
+              <Suspense>{props.children}</Suspense>
+            </ClerkProvider>
           </>
         )}
       >
         <FileRoutes />
       </Router>
-    </UserProvider>
+    </MetaProvider>
   );
 }
