@@ -52,4 +52,4 @@ jobs:
       #   id: deploy-alias
       #   run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
       - name: Deploy to Netlify
-        run: netlify deploy --dir=dist --functions=.netlify/functions-internal --alias=preview-deploy-${{ github.head_ref }}
+        run: netlify deploy --dir=dist --functions=.netlify/functions-internal --alias=preview-deploy-${{ github.ref_name }}
