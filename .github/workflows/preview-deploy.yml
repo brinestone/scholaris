@@ -47,9 +47,7 @@ jobs:
         if: ${{ steps.dep-cache.outputs.cache-hit }} != 'true'
         run: pnpm install
       - name: Build ⚙️
-        run: pnpm build
-      # - name: Generate deploy alias
-      #   id: deploy-alias
-      #   run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
+        run: netlify build --context deploy-preview
       - name: Deploy to Netlify
-        run: netlify deploy --dir=dist --functions=.netlify/functions-internal --alias=preview-deploy-${{ github.ref_name }}
+        # run: netlify deploy --message --dir=dist --functions=.netlify/functions-internal --alias=preview-deploy-${{ github.ref_name }}
+        run: netlify deploy --message="$(git log -1 --pretty=%B HEAD~1)"
