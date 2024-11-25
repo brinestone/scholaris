@@ -1,1 +1,53 @@
 name: Netlify preview deploy
+on:
+  push:
+    branches:
+      - next
+      - f/*
+      - b/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+      - name: Install PNPM
+        run: npm install -g pnpm
+      - name: Get PNPM Store
+        id: pnpm-store
+        run: |
+          echo "store-path=$(pnpm store path)\n">>$GITHUB_OUTPUT
+      - name: Dependency cache 📥
+        id: dep-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ${{steps.pnpm-store.outputs.store-path}}
+          key: ${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml')}}
+          restore-keys: ${{ runner.os }}-
+      - name: Install Dependencies ⬇️
+        if: ${{ steps.dep-cache.outputs.cache-hit }} == 'true'
+        run: pnpm install
+      - name: Build ⚙️
+        run: pnpm build
+      - name: Generate deploy alias
+        id: deploy-alias
+        run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
+      - name: Deploy to netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: "./dist"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: Preview deployment
+          production-branch: master
+          enable-commit-comment: true
+          alias: ${{ steps.deploy-alias.outputs.alias }}

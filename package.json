@@ -5,6 +5,7 @@
     "dev": "vinxi dev --host",
     "build": "vinxi build",
     "start": "vinxi start",
+    "release": "standard-version",
     "api-gen": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=staging)\" > src/lib/api-sdk.ts"
   },
   "dependencies": {
@@ -34,6 +35,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@types/validatorjs": "^3.15.5"
+    "@types/validatorjs": "^3.15.5",
+    "standard-version": "^9.5.0"
   }
 }
