@@ -6,9 +6,9 @@ on:
       - f/*
       - b/*
 
-permissions:
-  contents: read
-  deployments: write
+# permissions:
+#   contents: read
+#   deployments: write
 
 jobs:
   build:
@@ -23,8 +23,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - name: Install PNPM
-        run: npm install -g pnpm
       - name: Get PNPM Store
         id: pnpm-store
         run: |
@@ -35,9 +33,16 @@ jobs:
         with:
           path: |
             node_modules
+            ~/.npm
             ${{steps.pnpm-store.outputs.store-path}}
           key: ${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml')}}
           restore-keys: ${{ runner.os }}-
+      - name: Install PNPM
+        if: ${{ steps.dep-cache.outputs.cache-hit }} != 'true'
+        run: npm install -g pnpm
+      - name: Install Netlify CLI
+        if: ${{ steps.dep-cache.outputs.cache-hit }} != 'true'
+        run: npm install -g 
       - name: Install Dependencies ⬇️
         if: ${{ steps.dep-cache.outputs.cache-hit }} != 'true'
         run: pnpm install
@@ -47,12 +52,4 @@ jobs:
       #   id: deploy-alias
       #   run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: "./dist"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: Preview deployment
-          production-branch: master
-          enable-commit-comment: true
-          functions-dir: .netlify/functions-internal/server
-          alias: deploy-preview-${{ github.head_ref }}
+        run: netlify deploy --dir=dist --functions=.netlify/functions-internal --alias=preview-deploy-${{ github.head_ref }}
