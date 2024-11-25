@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 export default defineConfig({
   server: {
-    preset: "netlify-edge",
+    preset: "netlify",
   },
   middleware: "./src/middleware.ts",
   vite: {

@@ -46,7 +46,7 @@ jobs:
       # - name: Generate deploy alias
       #   id: deploy-alias
       #   run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
-      - name: Deploy to netlify
+      - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: "./dist"
@@ -54,5 +54,5 @@ jobs:
           deploy-message: Preview deployment
           production-branch: master
           enable-commit-comment: true
-          functions-dir: .netlify/functions-internal
+          functions-dir: .netlify/functions-internal/server
           alias: deploy-preview-${{ github.head_ref }}
