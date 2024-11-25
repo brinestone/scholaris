@@ -39,9 +39,9 @@ jobs:
         run: pnpm install
       - name: Build ⚙️
         run: pnpm build
-      - name: Generate deploy alias
-        id: deploy-alias
-        run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
+      # - name: Generate deploy alias
+      #   id: deploy-alias
+      #   run: echo "alias=$(echo ${{ github.head_ref }} | sed 's/[^[:alnum:]]/-/g;s/\([A-Z]\)/\L\1/g')\n" >> $GITHUB_OUTPUT
       - name: Deploy to netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
@@ -50,4 +50,4 @@ jobs:
           deploy-message: Preview deployment
           production-branch: master
           enable-commit-comment: true
-          alias: ${{ steps.deploy-alias.outputs.alias }}
+          alias: deploy-preview-${{ github.head_ref }}
