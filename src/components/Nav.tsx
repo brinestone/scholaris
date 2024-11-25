@@ -10,8 +10,13 @@ import {
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
+import { useLocation } from "@solidjs/router";
 
 export default function Nav() {
+  const location = useLocation();
+  const active = (path: string) =>
+    location.pathname.startsWith(path) ? "bg-muted" : "";
+
   return (
     <nav class="flex justify-between p-3">
       <div class="overflow-auto">
@@ -20,7 +25,11 @@ export default function Nav() {
             {(route) => (
               <Switch>
                 <Match when={!route.children}>
-                  <NavigationMenuTrigger as="a" href={route.path}>
+                  <NavigationMenuTrigger
+                    class={active(String(route.path))}
+                    as="a"
+                    href={route.path}
+                  >
                     {route.label}
                   </NavigationMenuTrigger>
                 </Match>

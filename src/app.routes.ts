@@ -1,3 +1,6 @@
 import { AppRoutes } from "./models";
 
-export const appRoutes: AppRoutes = [{ path: "/overview", label: "Overview" }];
+export const appRoutes: AppRoutes = [
+  { path: "/overview", label: "Overview" },
+  { path: "/organizations", label: "Organizations" },
+];
