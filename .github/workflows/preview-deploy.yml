@@ -16,6 +16,9 @@ jobs:
     env:
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+      VITE_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -42,7 +45,7 @@ jobs:
         run: npm install -g pnpm
       - name: Install Netlify CLI
         if: ${{ steps.dep-cache.outputs.cache-hit }} != 'true'
-        run: npm install -g 
+        run: npm install -g
       - name: Install Dependencies ⬇️
         if: ${{ steps.dep-cache.outputs.cache-hit }} != 'true'
         run: pnpm install
@@ -50,4 +53,4 @@ jobs:
         run: netlify build --context deploy-preview
       - name: Deploy to Netlify
         # run: netlify deploy --message --dir=dist --functions=.netlify/functions-internal --alias=preview-deploy-${{ github.ref_name }}
-        run: netlify deploy --message="$(git log -1 --pretty=%B HEAD~1)"
+        run: netlify deploy --message="${{ github.event.head_commit.message }}" --alias="preview-deploy-${{ github.ref_name }}"
