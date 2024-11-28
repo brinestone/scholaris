@@ -1,5 +1,13 @@
-import Client, { Environment } from "@/lib/api-sdk";
+import Client, { AuthDataGenerator, Environment, Local } from "@/lib/api-sdk";
+import { auth } from "clerk-solidjs/start/server";
 
-export function provideClient(accessToken?: string) {
-  return new Client(Environment("staging"), { auth: accessToken });
+export function provideApiClientOnServer() {
+  const authGenerator: AuthDataGenerator = async () => {
+    const userAuth = auth();
+    const token = await userAuth.getToken();
+    return token ?? undefined;
+  };
+  return new Client(Environment(process.env.SCHOLARIS_API_ENV ?? "prod"), {
+    auth: authGenerator,
+  });
 }

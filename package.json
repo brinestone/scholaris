@@ -4,8 +4,10 @@
   "scripts": {
     "dev": "vinxi dev --host",
     "build": "vinxi build",
+    "build:prod": "vinxi build",
     "start": "vinxi start",
-    "api-gen": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=staging)\" > src/lib/api-sdk.ts"
+    "api-gen": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=staging)\" > src/lib/api-sdk.ts",
+    "prebuild:prod": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=prod)\" > src/lib/api-sdk.ts"
   },
   "dependencies": {
     "@kobalte/core": "^0.13.7",
@@ -13,6 +15,7 @@
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "^1.0.10",
+    "@tanstack/solid-table": "^8.20.5",
     "@xstate/solid": "^1.0.0",
     "@xstate/store": "^2.6.1",
     "autoprefixer": "^10.4.19",
@@ -24,6 +27,7 @@
     "postcss": "^8.4.38",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.9.2",
+    "solid-sonner": "^0.2.8",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",

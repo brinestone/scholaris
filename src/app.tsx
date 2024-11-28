@@ -5,6 +5,7 @@ import { ClerkProvider, SignedIn } from "clerk-solidjs";
 import { Suspense } from "solid-js";
 import "./app.css";
 import Nav from "./components/Nav";
+import { Toaster } from "./components/ui/sonner";
 
 export default function App() {
   return (
@@ -19,7 +20,10 @@ export default function App() {
               <SignedIn>
                 <Nav />
               </SignedIn>
-              <Suspense>{props.children}</Suspense>
+              <Suspense>
+                {props.children}
+                <Toaster />
+              </Suspense>
             </ClerkProvider>
           </>
         )}

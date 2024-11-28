@@ -18,7 +18,7 @@ export default function Nav() {
     location.pathname.startsWith(path) ? "bg-muted" : "";
 
   return (
-    <nav class="flex justify-between p-3">
+    <nav class="flex justify-between p-3 border-muted border border-x-0 border-t-0">
       <div class="overflow-auto">
         <NavigationMenu>
           <For each={appRoutes}>

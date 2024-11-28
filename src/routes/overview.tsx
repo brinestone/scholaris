@@ -1,10 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { Title } from "@solidjs/meta";
-import { Navigate } from "@solidjs/router";
-import { SignedIn, SignedOut, useUser } from "clerk-solidjs";
-import { BsDot } from "solid-icons/bs";
-import moment from "moment";
-import { For, Show } from "solid-js";
+import PerformanceTrends from "@/components/PerformanceTrends";
 import {
   Card,
   CardContent,
@@ -12,8 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import PerformanceTrends from "@/components/PerformanceTrends";
+import { Skeleton } from "@/components/ui/skeleton";
 import UserFeed from "@/components/UserFeed";
+import { Title } from "@solidjs/meta";
+import { Navigate } from "@solidjs/router";
+import { SignedIn, SignedOut, useUser } from "clerk-solidjs";
+import moment from "moment";
+import { BsDot } from "solid-icons/bs";
+import { Show } from "solid-js";
 
 function UserInfoLoading() {
   return (
@@ -37,7 +37,7 @@ export default function OverviewPage() {
     <>
       <Title>Overview</Title>
       <SignedIn>
-        <div class="container space-y-4">
+        <div class="container space-y-4 pt-4">
           <section class="flex justify-between p-4 space-y-3 border border-muted rounded">
             <div class="flex items-center gap-3">
               <Show when={isLoaded()} fallback={UserInfoLoading()}>
