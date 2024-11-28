@@ -37,6 +37,7 @@ export default class Client {
     public readonly settings: settings.ServiceClient
     public readonly tenants: tenants.ServiceClient
     public readonly users: users.ServiceClient
+    public readonly webhooks: webhooks.ServiceClient
 
 
     /**
@@ -70,6 +71,7 @@ export default class Client {
         this.settings = new settings.ServiceClient(base)
         this.tenants = new tenants.ServiceClient(base)
         this.users = new users.ServiceClient(base)
+        this.webhooks = new webhooks.ServiceClient(base)
     }
 }
 
@@ -141,7 +143,7 @@ export namespace auth {
         /**
          * Creates a new user account
          */
-        public async SignUp(params: dto.NewUserRequest): Promise<void> {
+        public async SignUp(params: dto.NewInternalUserRequest): Promise<void> {
             await this.baseClient.callAPI("POST", `/auth/sign-up`, JSON.stringify(params))
         }
     }
@@ -664,10 +666,8 @@ export namespace tenants {
         /**
          * Creates a new Tenant
          */
-        public async NewTenant(params: dto.NewTenantRequest): Promise<dto.TenantLookup> {
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callAPI("POST", `/tenants`, JSON.stringify(params))
-            return await resp.json() as dto.TenantLookup
+        public async NewTenant(params: dto.NewTenantRequest): Promise<void> {
+            await this.baseClient.callAPI("POST", `/tenants`, JSON.stringify(params))
         }
     }
 }
@@ -697,10 +697,37 @@ export namespace users {
         }
 
         /**
+         * Find a user by their ID
+         */
+        public async FindUserByIdPublic(id: number): Promise<dto.User> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callAPI("GET", `/users/${encodeURIComponent(id)}`)
+            return await resp.json() as dto.User
+        }
+
+        /**
          * Uploads a user's profile photo
          */
         public async UploadProfilePhoto(method: string, id: string, body?: BodyInit, options?: CallParameters): Promise<Response> {
             return this.baseClient.callAPI(method, `/avatars/${encodeURIComponent(id)}`, body, options)
+        }
+    }
+}
+
+export namespace webhooks {
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+        }
+
+        /**
+         * Clerk Webhook
+         */
+        public async ClerkWebhook(method: string, body?: BodyInit, options?: CallParameters): Promise<Response> {
+            return this.baseClient.callAPI(method, `/webhooks/clerk`, body, options)
         }
     }
 }
@@ -1065,20 +1092,7 @@ export namespace dto {
         Timestamp: string
     }
 
-    export interface NewQuestionOption {
-        caption: string
-        value?: string
-        isDefault: boolean
-        image?: string
-    }
-
-    export interface NewTenantRequest {
-        name: string
-        subscriptionPlan?: number
-        captchaToken: string
-    }
-
-    export interface NewUserRequest {
+    export interface NewInternalUserRequest {
         /**
          * The user's first name
          */
@@ -1122,6 +1136,18 @@ export namespace dto {
         /**
          * The captcha token for the request
          */
+        captchaToken: string
+    }
+
+    export interface NewQuestionOption {
+        caption: string
+        value?: string
+        isDefault: boolean
+        image?: string
+    }
+
+    export interface NewTenantRequest {
+        name: string
         captchaToken: string
     }
 
@@ -1288,15 +1314,37 @@ export namespace dto {
 
     export interface User {
         id: number
-        firstName: string
-        lastName?: string
-        email: string
-        dob: string
-        phone: string
+        banned: boolean
         createdAt: string
         updatedAt: string
-        gender: Gender
-        avatar?: string
+        locked: boolean
+        primaryEmail?: number
+        primaryPhone?: number
+        emailsAddresses: UserEmailAddress[]
+        phoneNumbers: UserPhoneNumber[]
+        providedAccounts: UserAccount[]
+    }
+
+    export interface UserAccount {
+        id: number
+        externalId: string
+        imageUrl?: string
+        user: number
+        firstName?: string
+        lastName?: string
+        provider: string
+        providerProfileData?: string
+        gender?: string
+        dob?: string
+    }
+
+    export interface UserEmailAddress {
+        id: number
+        email: string
+        account: number
+        externalId: string
+        isPrimary: boolean
+        verified: boolean
     }
 
     export interface UserFormResponse {
@@ -1310,6 +1358,15 @@ export namespace dto {
 
     export interface UserFormResponses {
         responses: UserFormResponse[]
+    }
+
+    export interface UserPhoneNumber {
+        id: number
+        phone: string
+        account: number
+        externalId: string
+        isPrimary: boolean
+        verified: boolean
     }
 }
 
