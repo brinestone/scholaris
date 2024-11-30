@@ -28,8 +28,11 @@ body {
 }
 
 app-root {
-  display: block;
   width: 100%;
-  min-height: 100%;
-  background: black;
+  display: block;
+  height: 100vh;
+}
+
+p {
+  margin: 0;
 }

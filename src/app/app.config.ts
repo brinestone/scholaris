@@ -5,6 +5,8 @@ import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { themePreset } from './theming';
+import { provideClerk } from './providers';
+import { environment } from 'src/environments/environment.development';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,10 +20,11 @@ export const appConfig: ApplicationConfig = {
         options: {
           cssLayer: {
             name: 'primeng',
-            order: 'tailwind-base, primeng, tailwind-utilities'
+            order: 'primeng, tailwind-base, tailwind-utilities'
           }
         }
       }
-    })
+    }),
+    provideClerk(environment.clerkPublishableKey)
   ]
 };
