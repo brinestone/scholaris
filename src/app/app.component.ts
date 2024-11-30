@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet, ButtonModule],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'scholaris';
-  constructor(prime: PrimeNGConfig) {
-    prime.ripple = true;
-  }
+  // constructor(prime: PrimeNGConfig) {
+  //   prime.ripple = true;
+  // }
 }
