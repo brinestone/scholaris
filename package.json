@@ -13,7 +13,6 @@
   },
   "private": true,
   "dependencies": {
-    "@netlify/functions": "^2.8.2",
     "@angular/animations": "^18.2.0",
     "@angular/common": "^18.2.0",
     "@angular/compiler": "^18.2.0",
@@ -22,6 +21,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@netlify/functions": "^2.8.2",
     "@primeng/themes": "^18.0.0-rc.1",
     "primeng": "^18.0.0-rc.1",
     "rxjs": "~7.8.0",
@@ -33,6 +33,7 @@
     "@angular/cli": "^18.2.0",
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
+    "autoprefixer": "^10.4.20",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -40,7 +41,10 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "netlify-cli": "^17.37.2",
+    "postcss": "^8.4.49",
     "standard-version": "^9.5.0",
+    "tailwindcss": "^3.4.15",
+    "tailwindcss-primeui": "^0.3.4",
     "typescript": ">=5.4.0 <5.6"
   }
 }

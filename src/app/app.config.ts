@@ -15,6 +15,12 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
       theme: {
         preset: themePreset,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base, primeng, tailwind-utilities'
+          }
+        }
       }
     })
   ]
