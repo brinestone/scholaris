@@ -1,4 +1,4 @@
-import { ClerkSignInFormDirective } from '@/app/directives/clerk/sign-in-form/clerk-sign-in-form.directive';
+import { ClerkSignInFormDirective } from '@/app/directives/clerk';
 import { Component } from '@angular/core';
 
 @Component({
