@@ -22,7 +22,8 @@
       "@/lib/*": [
         "./lib/*"
       ],
-      "@/app/*": ["./src/app/*"]
+      "@/app/*": ["./src/app/*"],
+      "@/env/*": ["./src/environments/*"]
     }
   },
   "angularCompilerOptions": {

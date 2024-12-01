@@ -9,8 +9,4 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'scholaris';
-  // constructor(prime: PrimeNGConfig) {
-  //   prime.ripple = true;
-  // }
 }

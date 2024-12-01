@@ -1,0 +1,24 @@
+<form class="space-y-3 py-2">
+    <div>
+        <div class="w-full space-y-1">
+            <label class="block text-sm font-medium" for="theme">Theme</label>
+            <p-select size="small" appendTo="body" inputId="theme"
+                [options]="[{value: 'light', label: 'Light', icon: 'pi pi-sun'},{value: 'dark', label: 'Dark' ,icon: 'pi pi-moon'}, {value: 'system', label: 'System', icon: isSmallDisplay() ? 'pi pi-mobile' : 'pi pi-desktop'}]"
+                optionValue="value" styleClass="w-full flex">
+                <ng-template #item let-item>
+                    <div class="flex items-center gap-2">
+                        <i [class]="item.icon"></i>
+                        <span>{{ item.label }}</span>
+                    </div>
+                </ng-template>
+            </p-select>
+        </div>
+    </div>
+    <div>
+        <div class="w-full space-y-1">
+            <label class="block text-sm font-medium" for="i18n">Language</label>
+            <p-select size="small" appendTo="body" inputId="i18n" [options]="[]" styleClass="w-full">
+            </p-select>
+        </div>
+    </div>
+</form>

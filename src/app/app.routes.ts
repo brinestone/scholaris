@@ -4,6 +4,6 @@ import { signedInGuard } from './guards/signed-in.guard';
 
 export const routes: Routes = [
     { path: 'auth', loadChildren: () => import('./auth.routes') },
-    { path: 'overview', canActivate: [signedInGuard], component: OverviewComponent },
+    { path: 'overview', title: 'Overview', canActivate: [signedInGuard], component: OverviewComponent },
     { path: '', redirectTo: 'overview', pathMatch: 'full' },
 ];

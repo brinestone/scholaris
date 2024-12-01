@@ -1,0 +1,69 @@
+<ng-content select="sc-app-wide-alert" />
+<nav class="border border-x-0 border-t-0 border-muted py-2 row-start-2">
+    <div class="flex items-center justify-between container mx-auto">
+        <div class="flex items-center gap-3">
+            @if(isSmallDisplay()){
+            <p-button (onClick)="showLeftDrawer.set(true)" size="small" icon="pi pi-bars" [text]="true"
+                [rounded]="true" />
+            }
+            <ng-container [ngTemplateOutlet]="brand" [ngTemplateOutletContext]="{$implicit: brandText}" />
+        </div>
+
+        <div class="flex items-center gap-3">
+            <!-- <p-button [outlined]="true" [rounded]="true" icon="pi pi-search" pTooltip="Search" /> -->
+            <!-- <p-button (onClick)="showPrefsDialog.set(true)" [outlined]="true" [rounded]="true" icon="pi pi-sliders-h"
+                pTooltip="Preferences" /> -->
+            <div clUserButton></div>
+        </div>
+    </div>
+</nav>
+<div class="grid grid-cols-[auto_1fr_auto] container mx-auto row-start-3 overflow-y-auto">
+    @if(!isSmallDisplay()) {
+    <ng-container *ngTemplateOutlet="leftContentTemplate" />
+    }
+    <main class="col-start-2">
+        <ng-content />
+    </main>
+    @if(!isSmallDisplay()) {
+    <ng-content select="sc-shell-right-nav" />
+    }
+</div>
+<ng-content select="sc-shell-footer" />
+
+@if(isSmallDisplay()){
+<p-drawer [modal]="true" [(visible)]="showLeftDrawer" position="full">
+    <ng-template #header>
+        <div class="flex items-center gap-3">
+            <ng-container [ngTemplateOutlet]="brand" [ngTemplateOutletContext]="{$implicit: brandText}" />
+        </div>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="leftContentTemplate" />
+</p-drawer>
+}
+
+<ng-template #brand let-brandText>
+    <a class="flex items-center gap-2" routerLink="/">
+        <img src="favicon.ico" width="25">
+        <h1 class="text-lg font-bold">{{ brandText }}</h1>
+    </a>
+</ng-template>
+
+<ng-template #leftContentTemplate>
+    <ng-content select="sc-shell-left-nav" />
+</ng-template>
+
+<p-dialog [breakpoints]="{ 
+    '1024': '75vw', 
+    '575px': '90vw'
+    }" appendTo="body" [(visible)]="showPrefsDialog" [modal]="true" [blockScroll]="true">
+    <ng-template #header>
+        <h1 class="text-xl font-semibold">User Preferences</h1>
+    </ng-template>
+    <sc-preferences-form />
+    <ng-template #footer>
+        <div class="flex gap-3 items-center">
+            <p-button label="Discard" [text]="true" severity="danger" size="small" [rounded]="true" />
+            <p-button label="Apply" severity="success" size="small" [rounded]="true" />
+        </div>
+    </ng-template>
+</p-dialog>

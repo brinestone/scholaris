@@ -1,5 +1,13 @@
-import { APP_INITIALIZER, EnvironmentProviders, inject, InjectionToken, makeEnvironmentProviders } from '@angular/core';
+import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
+import { DefaultTitleStrategy, TitleStrategy } from '@angular/router';
 import { Clerk } from '@clerk/clerk-js';
+
+export function provideDefaultTitleStrategy(): Provider {
+    return {
+        provide: TitleStrategy,
+        useClass: DefaultTitleStrategy,
+    }
+}
 
 export function provideClerk(clerkKey: string): EnvironmentProviders {
     const client = new Clerk(clerkKey);

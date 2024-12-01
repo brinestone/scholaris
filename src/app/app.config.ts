@@ -3,10 +3,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 
 import { providePrimeNG } from 'primeng/config';
-import { routes } from './app.routes';
-import { themePreset } from './theming';
-import { provideClerk } from './providers';
 import { environment } from 'src/environments/environment.development';
+import { routes } from './app.routes';
+import { provideClerk, provideDefaultTitleStrategy } from './providers';
+import { themePreset } from './theming';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,13 +18,15 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: themePreset,
         options: {
+          darkModeSelector: 'system',
           cssLayer: {
             name: 'primeng',
-            order: 'primeng, tailwind-base, tailwind-utilities'
+            order: 'tailwind-base, primeng, tailwind-utilities'
           }
         }
       }
     }),
-    provideClerk(environment.clerkPublishableKey)
+    provideClerk(environment.clerkPublishableKey),
+    provideDefaultTitleStrategy()
   ]
 };

@@ -14,6 +14,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.0",
+    "@angular/cdk": "^18",
     "@angular/common": "^18.2.0",
     "@angular/compiler": "^18.2.0",
     "@angular/core": "^18.2.0",
@@ -24,6 +25,7 @@
     "@clerk/clerk-js": "^5.35.1",
     "@netlify/functions": "^2.8.2",
     "@primeng/themes": "^18.0.0-rc.1",
+    "primeicons": "^7.0.0",
     "primeng": "^18.0.0-rc.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
