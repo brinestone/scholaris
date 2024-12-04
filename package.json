@@ -8,8 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "release": "standard-version",
-    "api-gen": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=staging)\" > src/lib/api-sdk.ts",
-    "prebuild:prod": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=prod)\" > src/lib/api-sdk.ts"
+    "api-gen": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=staging)\" > lib/api/index.ts",
+    "prebuild:prod": "echo \"$(encore gen client scholaris-xnz2 --lang typescript --env=prod)\" > lib/api/index.ts"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +24,11 @@
     "@angular/router": "^18.2.0",
     "@clerk/clerk-js": "^5.35.1",
     "@netlify/functions": "^2.8.2",
+    "@ngxs/devtools-plugin": "^18.1.6",
+    "@ngxs/logger-plugin": "^18.1.6",
+    "@ngxs/router-plugin": "^18.1.6",
+    "@ngxs/storage-plugin": "^18.1.6",
+    "@ngxs/store": "^18.1.6",
     "@primeng/themes": "^18.0.0-rc.1",
     "primeicons": "^7.0.0",
     "primeng": "^18.0.0-rc.1",

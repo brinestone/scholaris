@@ -8,7 +8,7 @@ import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule, } from 'primeng/dialog';
 import { DrawerModule } from 'primeng/drawer';
-import { TooltipModule } from 'primeng/tooltip';
+import { TooltipModule } from 'primeng/tooltip'; import { Menu } from 'primeng/menu';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { PreferencesFormComponent } from '../preferences-form/preferences-form.component';
@@ -38,6 +38,7 @@ export class AppWideAlertComponent {
     '[class.border-l-0]': '!isSmallDisplay()',
     '[class.border-y-0]': '!isSmallDisplay()',
     '[class.border-[var(--primary-text-color)]]': '!isSmallDisplay()',
+    '[class.w-40]': '!isSmallDisplay()'
   }
 })
 export class ShellLeftNavComponent {
@@ -80,7 +81,7 @@ export class ShellFooterComponent {
 @Component({
   selector: 'sc-shell',
   standalone: true,
-  imports: [NgTemplateOutlet, PreferencesFormComponent, ButtonModule, ClerkUserButtonDirective, DialogModule, DrawerModule, RouterLink, TooltipModule],
+  imports: [NgTemplateOutlet, Menu, PreferencesFormComponent, ButtonModule, ClerkUserButtonDirective, DialogModule, DrawerModule, RouterLink, TooltipModule],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss'
 })
@@ -96,4 +97,8 @@ export class ShellComponent {
   ));
   readonly showLeftDrawer = model(false);
   readonly showPrefsDialog = model(false);
+  readonly newMenuItems: MenuItem[] = [
+    { routerLink: '/institutions/new', icon: 'pi pi-building', label: 'Institution' },
+    { routerLink: '/tenants/new', icon: 'pi pi-sitemap', label: 'Organization' }
+  ]
 }

@@ -1,9 +1,77 @@
 <sc-shell>
-    <sc-shell-footer>
-        Something at the footer
-    </sc-shell-footer>
+    <div class="space-y-3 pt-4 md:pl-4 px-4">
+        <section class="border border-muted rounded justify-between p-3 flex items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img clAvatar width="100" class="rounded-full">
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <h1 class="text-xl font-bold" clUserDisplayName></h1>
+                        <h2 class="text-muted-color" clUserEmail></h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @if(hasRecentPerformances()) {
+        <section class="border border-muted p-3 space-y-2 rounded">
+            <h1 class="text-lg font-bold">My Performance</h1>
+            <div>
+                <sc-user-session-score />
+            </div>
+        </section>
+        }
+        <section>
+            <p-fluid>
+                <h1 class="text-lg font-bold">Recents</h1>
+                <sc-recents-feed />
+            </p-fluid>
+        </section>
+    </div>
     <sc-shell-left-nav>
-        left content
+        <h1 class="text-xl font-bold">Menu</h1>
+        <ul class="w-full space-y-3 mt-3">
+            @let chunkSize = 5;
+            @if(loadingTenants() || tenants().length > 0) {
+            <li class="block space-y-2 border border-y-0 border-r-0 border-primary pl-3">
+                @defer(when !loadingTenants()){
+                <p class="text-sm text-muted-color">Organizations</p>
+                @for(tenant of tenants()|slice:0:(showingAllTenants ? tenants().length-1 : chunkSize); track tenant) {
+                <a [routerLink]="['/tenants', tenant.id]" [title]="tenant.name"
+                    class="block hover:text-primary hover:bg-surface-100 px-2 py-1 line-clamp-1 text-ellipsis text-nowrap md:rounded-l rounded">{{
+                    tenant.name }}</a>
+                }
+                @if(tenants().length > chunkSize && !showingAllTenants) {
+                <a (click)="showingAllTenants = true" class="text-primary text-sm cursor-pointer block px-2 py-1">Show
+                    more</a>
+                }
+                }@placeholder {
+                @for(i of [1,2,3,4]; track $index){
+                <div class="pr-3"><p-skeleton styleClass="block" /></div>
+                }
+                }
+            </li>
+            }
+            @if(loadingInstitutions() || institutions().length > 0) {
+            <li class="block space-y-2 border border-y-0 border-r-0 border-primary pl-3">
+                @defer(when !loadingInstitutions()){
+                <p class="text-sm text-muted-color">Institutions</p>
+                @for(institution of institutions()|slice:0:(showingAllInstitutions ? tenants().length-1 : chunkSize);
+                track institution) {
+                <a [routerLink]="['/institutions', institution.id]" [title]="institution.name"
+                    class="block hover:text-primary hover:bg-surface-100 px-2 py-1 line-clamp-1 text-ellipsis text-nowrap md:rounded-l rounded">{{
+                    institution.name }}</a>
+                }
+                @if(institutions().length > chunkSize && !showingAllInstitutions) {
+                <a (click)="showingAllInstitutions = true"
+                    class="text-primary text-sm cursor-pointer block px-2 py-1">Show
+                    more</a>
+                }
+                }@placeholder {
+                @for(i of [1,2,3,4]; track $index){
+                <div class="pr-3"><p-skeleton styleClass="block" /></div>
+                }
+                }
+            </li>
+            }
+        </ul>
     </sc-shell-left-nav>
-    Content
 </sc-shell>

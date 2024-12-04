@@ -6,7 +6,6 @@ export const signedInGuard: CanActivateFn = (_, state) => {
   const clerk = inject(Clerk);
   const router = inject(Router);
   if (!clerk.user) {
-    debugger;
     const signInRedirect = new URL(clerk.buildSignInUrl({ redirectUrl: state.url }));
     const redirect = signInRedirect.pathname;
     const urlTree = router.createUrlTree(
