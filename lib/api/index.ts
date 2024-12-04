@@ -476,11 +476,12 @@ export namespace institutions {
         /**
          * Looks up institutions
          */
-        public async Lookup(params: dto.PageBasedPaginationParams): Promise<dto.LookupInstitutionsResponse> {
+        public async Lookup(params: dto.LookupInstitutionsRequest): Promise<dto.LookupInstitutionsResponse> {
             // Convert our params into the objects we need for the request
             const query = makeRecord<string, string | string[]>({
-                page: String(params.page),
-                size: String(params.size),
+                page:           params.Page === undefined ? undefined : String(params.Page),
+                size:           params.Size === undefined ? undefined : String(params.Size),
+                subscribedOnly: params.SubscribedOnly === undefined ? undefined : String(params.SubscribedOnly),
             })
 
             // Now make the actual call to the API
@@ -651,15 +652,9 @@ export namespace tenants {
         /**
          * Find all Tenants
          */
-        public async Lookup(params: dto.PageBasedPaginationParams): Promise<dto.FindTenantResponse> {
-            // Convert our params into the objects we need for the request
-            const query = makeRecord<string, string | string[]>({
-                page: String(params.page),
-                size: String(params.size),
-            })
-
+        public async Lookup(): Promise<dto.FindTenantResponse> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callAPI("GET", `/tenants`, undefined, {query})
+            const resp = await this.baseClient.callAPI("GET", `/tenants`)
             return await resp.json() as dto.FindTenantResponse
         }
 
@@ -960,6 +955,8 @@ export namespace dto {
         isMember: boolean
         verified: boolean
         members: number
+        currentYear?: number
+        currentTerm?: number
     }
 
     export interface InstitutionLookup {
@@ -990,6 +987,12 @@ export namespace dto {
          * The reCaptcha token for the site
          */
         captchaToken: string
+    }
+
+    export interface LookupInstitutionsRequest {
+        Page?: number
+        Size?: number
+        SubscribedOnly?: boolean
     }
 
     export interface LookupInstitutionsResponse {
@@ -1149,11 +1152,6 @@ export namespace dto {
     export interface NewTenantRequest {
         name: string
         captchaToken: string
-    }
-
-    export interface PageBasedPaginationParams {
-        page: number
-        size: number
     }
 
     export interface QuestionOption {

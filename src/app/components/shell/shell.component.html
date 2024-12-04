@@ -13,6 +13,9 @@
             <!-- <p-button [outlined]="true" [rounded]="true" icon="pi pi-search" pTooltip="Search" /> -->
             <!-- <p-button (onClick)="showPrefsDialog.set(true)" [outlined]="true" [rounded]="true" icon="pi pi-sliders-h"
                 pTooltip="Preferences" /> -->
+            <p-menu #newMenu [model]="newMenuItems" [popup]="true" />
+            <p-button icon="pi pi-plus" [outlined]="true" [rounded]="true" size="small"
+                (onClick)="newMenu.toggle($event)" />
             <div clUserButton></div>
         </div>
     </div>
