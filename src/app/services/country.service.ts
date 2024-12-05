@@ -5,12 +5,11 @@ const storeName = 'countries';
 
 function fillDatabase(db: IDBDatabase) {
     return new Promise<void>((resolve, reject) => {
-        return fetch('/countries.json', { method: 'GET' }).then(r => r.json()).then(async info => {
+        return fetch('https://restcountries.com/v2/all', { method: 'GET' }).then(r => r.json()).then(async info => {
             let transactionCompleted = false;
-            let stored = 0;
             const store = db.transaction(storeName, 'readwrite').objectStore(storeName);
             store.transaction.onerror = reject;
-            const onTransactionCompleted = (err?: any) => {
+            const onTransactionCompleted = (err?: unknown) => {
                 transactionCompleted = true;
                 if (err) reject(err);
             };
@@ -37,7 +36,6 @@ function fillDatabase(db: IDBDatabase) {
                     reject(e);
                     return;
                 }
-                stored++;
             }
             store.transaction.commit();
             resolve();
@@ -61,7 +59,7 @@ function initializeCountriesDb() {
         request.onerror = reject;
         request.onupgradeneeded = (event) => {
             const db = (event.target as unknown as { result: IDBDatabase }).result;
-            const objectStore = db.createObjectStore(storeName, { keyPath: ['cca2', 'cca3', 'area'] });
+            const objectStore = db.createObjectStore(storeName, { keyPath: ['alpha2Code', 'alpha3Code'] });
             objectStore.transaction.onerror = reject;
             objectStore.transaction.oncomplete = async () => {
                 try {

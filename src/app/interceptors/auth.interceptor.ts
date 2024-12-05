@@ -4,6 +4,7 @@ import { Clerk } from '@clerk/clerk-js';
 import { from, switchMap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  console.log(req.url)
   const clerk = inject(Clerk);
   if (clerk.session) {
     return from(clerk.session.getToken()).pipe(
