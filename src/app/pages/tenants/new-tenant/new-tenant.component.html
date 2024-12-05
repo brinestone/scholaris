@@ -1,0 +1,43 @@
+<form [formGroup]="form" class="md:max-w-[50%] max-w-[90vw] space-y-3 md:mx-0 mx-auto md:mt-0 -mt-40">
+    <div class="flex items-stretch">
+        <div class="flex justify-end items-center">
+            <p-button (onClick)="onBackButtonClicked()" type="button" [text]="true" [rounded]="true" size="small"
+                severity="secondary" icon="pi pi-chevron-left" title="Go back" />
+        </div>
+        <p-divider layout="vertical" />
+        <div class="flex justify-start items-center">
+            <label for="name" class="font-bold text-lg md:text-3xl text-muted-color block ">Let's give your Organization
+                a name</label>
+        </div>
+    </div>
+    <p-fluid class="flex items-center gap-3">
+        <p-fluid class="space-y-1">
+            <!-- <p-fluid> -->
+            <input formControlName="name" id="name" autofocus pInputText />
+            <!-- </p-fluid> -->
+            @if(form.controls.name.dirty && form.controls.name.invalid && !form.controls.name.pending) {
+            <p-message variant="simple" severity="error" size="small">
+                @if(form.controls.name.hasError('required')) {
+                A value is required here
+                }
+            </p-message>
+            }
+            @if(errorMessage()) {
+            <div>
+                <p-message icon="pi pi-times-circle" severity="error">{{ errorMessage() }}</p-message>
+            </div>
+            }
+        </p-fluid>
+        @if(form.controls.name.dirty && form.controls.name.value !== '') {
+        <p-tag styleClass="text-sm"
+            [value]="form.controls.name.pending ? 'Checking' : form.controls.name.hasError('nameUnavailable') ? 'Unavailable' : 'Available'"
+            [icon]="form.controls.name.pending ? 'pi pi-spinner pi-spin' : form.controls.name.hasError('nameUnavailable') ? 'pi pi-times' : 'pi pi-check'"
+            [severity]="form.controls.name.pending ? 'secondary' : form.controls.name.hasError('nameUnavailable') ? 'danger' : 'success'"
+            [rounded]="true" />
+        }
+    </p-fluid>
+    <div>
+        <p-button (onClick)="onFinishButtonClicked()" [loading]="submitting()"
+            [disabled]="form.invalid || form.pending || submitting()" type="submit" label="Finish" />
+    </div>
+</form>

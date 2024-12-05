@@ -1,3 +1,6 @@
+[functions]
+    external_node_modules = ["express", "cookie-parser", "express-request-context"]
+    node_bundler = "esbuild"
 [[redirects]]
     from="/api/*"
     to="/.netlify/functions/:splat"

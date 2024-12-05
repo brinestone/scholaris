@@ -3,7 +3,7 @@ import { ShellComponent, ShellLeftNavComponent } from '@/app/components/shell';
 import { UserSessionScoreComponent } from '@/app/components/user-session-score';
 import { ClerkUserAvatarDirective, ClerkUserDisplayNameDirective, ClerkUserEmailAddressDirective } from '@/app/directives/clerk';
 import { LoadInstitutions, LoadTenants, Selectors } from '@/app/state';
-import { NgClass, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
@@ -11,13 +11,13 @@ import { Actions, ofActionCompleted, ofActionDispatched, select, Store } from '@
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { Skeleton } from 'primeng/skeleton';
-import { identity, map, merge, mergeAll, mergeMap } from 'rxjs';
+import { identity, map, merge, mergeMap } from 'rxjs';
 
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [Fluid, NgClass, SlicePipe, Skeleton, UserSessionScoreComponent, RouterLink, ButtonModule, RecentsFeedComponent, ShellComponent, ClerkUserEmailAddressDirective, ClerkUserDisplayNameDirective, ClerkUserAvatarDirective, ShellLeftNavComponent],
+  imports: [Fluid, SlicePipe, Skeleton, UserSessionScoreComponent, RouterLink, ButtonModule, RecentsFeedComponent, ShellComponent, ClerkUserEmailAddressDirective, ClerkUserDisplayNameDirective, ClerkUserAvatarDirective, ShellLeftNavComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })

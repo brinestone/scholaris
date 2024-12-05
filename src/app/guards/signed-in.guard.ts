@@ -2,7 +2,10 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Clerk } from '@clerk/clerk-js';
 
-export const signedInGuard: CanActivateFn = (_, state) => {
+export const signedInGuard: CanActivateFn = (route, state) => {
+  const { isPublic } = route.data;
+  if (isPublic === true) return true;
+
   const clerk = inject(Clerk);
   const router = inject(Router);
   if (!clerk.user) {

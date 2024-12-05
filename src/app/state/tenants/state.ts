@@ -4,7 +4,7 @@ import { EnvironmentProviders, inject, Injectable, makeEnvironmentProviders } fr
 import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/store";
 import { patch } from "@ngxs/store/operators";
 import { tap } from "rxjs";
-import { LoadTenants } from "./actions";
+import { CreateTenant, LoadTenants } from "./actions";
 
 export type TenantStateModel = {
     subscribed: dto.TenantLookup[];
@@ -24,6 +24,16 @@ type Context = StateContext<TenantStateModel>;
 })
 class TenantState {
     private tenantService = inject(TenantService);
+
+    @Action(CreateTenant)
+    onCreateTenant(ctx: Context, { captcha, name }: CreateTenant) {
+        return this.tenantService.createTenant(name, captcha).pipe(
+            tap(subscribed => ctx.setState(patch({
+                subscribed,
+                focus: subscribed.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf())[0].id
+            })))
+        )
+    }
 
     @Action(LoadTenants)
     onLoadTenants(ctx: Context) {

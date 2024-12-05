@@ -1,4 +1,4 @@
-import { provideStore } from '@ngxs/store';
+import { RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 import { withNgxsReduxDevtoolsPlugin } from '@ngxs/devtools-plugin';
 import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { withNgxsRouterPlugin } from '@ngxs/router-plugin';
@@ -15,6 +15,7 @@ import { provideClerk, provideDefaultTitleStrategy } from './providers';
 import { themePreset } from './theming';
 import { provideCountryData } from './services';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { provideStore } from '@ngxs/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -43,6 +44,10 @@ export const appConfig: ApplicationConfig = {
       withNgxsLoggerPlugin({ disabled: !isDevMode() }),
       withNgxsRouterPlugin(),
       withNgxsReduxDevtoolsPlugin({ disabled: !isDevMode() })
-    )
+    ),
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: environment.reCaptchaPublicKey
+    }
   ]
 };
