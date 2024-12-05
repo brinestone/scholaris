@@ -11,6 +11,11 @@ export class Selectors {
     private static tenants = createPropertySelectors(TENANTS);
     private static institutions = createPropertySelectors(INSTITUTIONS);
 
+    @Selector([Selectors.tenants.focus])
+    static focusedTenant(f?: number) {
+        return f
+    }
+
     @Selector([Selectors.tenants.subscribed])
     static subscribedTenants(s: dto.TenantLookup[]) {
         return s;

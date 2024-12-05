@@ -1,0 +1,24 @@
+<sc-shell>
+    <sc-shell-top-nav>
+        <ng-template #preBrand>
+            <p-button [routerLink]="['..']" [relativeTo]="route" icon="pi pi-chevron-left" size="small" [text]="true" />
+        </ng-template>
+        <ng-template #postBrand>
+            <p-select [options]="tenants()" optionLabel="name" optionValue="id" [ngModel]="focusedTenant()"
+                size="small" />
+        </ng-template>
+    </sc-shell-top-nav>
+    <p-tabs [value]="$any(route.firstChild?.routeConfig?.path)">
+        <p-tablist>
+            @for (route of defaultTabs; track $index) {
+            <p-tab [value]="$any(route.path)" [routerLink]="route.path">
+                @if(route.data?.['icon']) {
+                <i [class]="route.data?.['icon']"></i>
+                }
+                <span>{{ route.title }}</span>
+            </p-tab>
+            }
+        </p-tablist>
+    </p-tabs>
+    <router-outlet />
+</sc-shell>

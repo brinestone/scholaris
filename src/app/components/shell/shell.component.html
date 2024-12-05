@@ -1,12 +1,14 @@
 <ng-content select="sc-app-wide-alert" />
-<nav class="border border-x-0 border-t-0 border-muted py-2 row-start-2">
-    <div class="flex items-center justify-between container mx-auto">
+<nav class="bg-[var(--p-content-background)] border border-x-0 border-t-0 border-[var(--p-content-border-color)] py-2 row-start-2">
+    <div class="flex items-center justify-between mx-3">
         <div class="flex items-center gap-3">
             @if(isSmallDisplay()){
             <p-button (onClick)="showLeftDrawer.set(true)" size="small" icon="pi pi-bars" [text]="true"
                 [rounded]="true" />
             }
-            <ng-container [ngTemplateOutlet]="brand" [ngTemplateOutletContext]="{$implicit: brandText}" />
+            <ng-content select="sc-shell-top-nav">
+                <ng-container [ngTemplateOutlet]="brand" [ngTemplateOutletContext]="{$implicit: brandText}" />
+            </ng-content>
         </div>
 
         <div class="flex items-center gap-3">
@@ -20,7 +22,7 @@
         </div>
     </div>
 </nav>
-<div class="grid grid-cols-[auto_1fr_auto] container mx-auto row-start-3 overflow-y-auto">
+<div class="grid grid-cols-[auto_1fr_auto] row-start-3 overflow-y-auto">
     @if(!isSmallDisplay()) {
     <ng-container *ngTemplateOutlet="leftContentTemplate" />
     }
