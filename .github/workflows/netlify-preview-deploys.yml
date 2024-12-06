@@ -43,7 +43,5 @@ jobs:
       - name: Install Dependencies 📦
         if: steps.setup-cache.outputs.cache-hit != 'true'
         run: pnpm i
-      - name: Build ⚙️
-        run: netlify build --context deploy-preview
-      - name: Deploy ⬆️
-        run: netlify deploy --alias=${{ github.ref_name }}
+      - name: Build ⚙️ & Deploy ⬆️
+        run: netlify deploy --alias=${{ github.ref_name }} --build --context deploy-preview
