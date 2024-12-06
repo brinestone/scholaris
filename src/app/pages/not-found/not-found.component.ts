@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Button } from 'primeng/button';
 
 @Component({
@@ -12,6 +12,10 @@ import { Button } from 'primeng/button';
 })
 export class NotFoundComponent {
   private location = inject(Location);
+  private route = inject(ActivatedRoute);
+  constructor() {
+    console.log(this.route.snapshot);
+  }
   onGoBackButtonClicked() {
     this.location.back();
   }

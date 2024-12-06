@@ -4,7 +4,7 @@
             <p-button [routerLink]="['..']" [relativeTo]="route" icon="pi pi-chevron-left" size="small" [text]="true" />
         </ng-template>
         <ng-template #postBrand>
-            <p-select [options]="tenants()" optionLabel="name" optionValue="id" [ngModel]="focusedTenant()"
+            <p-select [options]="tenants()" optionLabel="name" optionValue="id" [ngModel]="focusedTenant"
                 size="small" />
         </ng-template>
     </sc-shell-top-nav>

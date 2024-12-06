@@ -23,5 +23,5 @@ export class TenantComponent {
   readonly defaultTabs = (this.route.routeConfig?.children ?? []).filter(r => r.data?.['isPrivileged'] !== true && !r.redirectTo)
   readonly privilegedTabs = (this.route.routeConfig?.children ?? []).filter(r => r.data?.['isPrivileged'] === true);
   readonly tenants = select(Selectors.subscribedTenants)
-  readonly focusedTenant = select(Selectors.focusedTenant)
+  readonly focusedTenant = Number(this.route.snapshot.paramMap.get('id'));
 }
