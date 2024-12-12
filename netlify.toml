@@ -1,5 +1,4 @@
 [functions]
-    external_node_modules = ["express", "express-request-context"]
     node_bundler = "esbuild"
 [[redirects]]
     from="/api/*"

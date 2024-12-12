@@ -1,50 +1,66 @@
 import { ShellComponent } from '@/app/components/shell';
-import { Component, computed, inject, Signal } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterOutlet, Routes } from '@angular/router';
+import { Component, computed, effect, inject, OnDestroy, Signal } from '@angular/core';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { injectParams } from 'ngxtension/inject-params';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
-import { FocusTenant, selectDomainPermissionsFor, subscribedTenants } from '@/app/state';
-import { PermissionDomains } from '@/lib/index';
+import { ClearPermissions, focusedTenantPermissions, FocusTenant, subscribedTenants } from '@/app/state';
+import { PermissionDescription } from '@/models/permission-description';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Navigate } from '@ngxs/router-plugin';
-import { dispatch, select } from '@ngxs/store';
+import { Actions, dispatch, ofActionCompleted, ofActionDispatched, select } from '@ngxs/store';
 import { Button } from 'primeng/button';
-import { InplaceModule } from 'primeng/inplace';
 import { Select, SelectChangeEvent } from 'primeng/select';
 import { TabsModule } from 'primeng/tabs';
-import { concatMap } from 'rxjs';
+import { map, merge } from 'rxjs';
 import { ShellTopNav } from "../../../components/shell/shell.component";
+import { PermissionDomains } from '@/lib/index';
 
 @Component({
   selector: 'sc-tenant',
   standalone: true,
-  imports: [ShellComponent, InplaceModule, TabsModule, FormsModule, RouterLink, RouterOutlet, ShellTopNav, Select, Button],
+  imports: [ShellComponent, ProgressSpinner, TabsModule, FormsModule, RouterLink, RouterOutlet, ShellTopNav, Select, Button],
   templateUrl: './tenant.component.html',
   styleUrl: './tenant.component.scss'
 })
-export class TenantComponent {
+export class TenantComponent implements OnDestroy {
   readonly route = inject(ActivatedRoute);
-  private readonly navigate = dispatch(Navigate);
-  private focus = dispatch(FocusTenant);
-  readonly tenants = select(subscribedTenants)
-  private readonly tenantId = injectParams('id') as Signal<string>;
-  readonly tenantAsNumber = computed(() => Number(this.tenantId()));
-  private permissions = select(selectDomainPermissionsFor(PermissionDomains.Tenant, this.tenantId()));
-  readonly permittedTabs = computed(() => {
-    const permissions = this.permissions();
-    const children = (this.route.routeConfig?.children as Routes).filter(r => !r.redirectTo);
-    const generalRoutes = children.filter(r => !r.data?.['permissions']);
-    const privilegedRoutes = children.filter(r => r.data?.['permissions'] && (r.data['permissions'].permissions as string[]).every(p => permissions.includes(p)));
+  private readonly actions$ = inject(Actions);
 
-    return [...generalRoutes, ...privilegedRoutes];
+  private readonly navigate = dispatch(Navigate);
+  private readonly focus = dispatch(FocusTenant);
+  private readonly clearPermissions = dispatch(ClearPermissions);
+  readonly focusChanging = toSignal(merge(
+    this.actions$.pipe(ofActionDispatched(FocusTenant), map(() => true)),
+    this.actions$.pipe(ofActionCompleted(FocusTenant), map(() => false))
+  ))
+
+  readonly tenants = select(subscribedTenants);
+  readonly permissions = select(focusedTenantPermissions);
+
+  private readonly tenantId = injectParams('id') as Signal<string>;
+  readonly tenant = computed(() => Number(this.tenantId()));
+
+  readonly childRoutes = (this.route.routeConfig?.children ?? []).filter(r => !r.redirectTo)
+  private readonly generalRoutes = this.childRoutes.filter(r => !r.data?.['permissions']);
+  readonly permittedRoutes = computed(() => {
+    const domainPermissions = this.permissions();
+    const routes = this.childRoutes.filter(r => r.data?.['permissions'] && (r.data['permissions'] as PermissionDescription).permissions.every(p => domainPermissions.includes(p)));
+    return routes;
   });
-  constructor() {
-    this.route.data.subscribe(console.log);
+  readonly tabbedRoutes = computed(() => [...this.generalRoutes, ...this.permittedRoutes()]);
+
+  ngOnDestroy(): void {
+    this.focus();
+    this.clearPermissions(PermissionDomains.Tenant, this.tenantId());
   }
 
   onFocusChanged(event: SelectChangeEvent) {
-    this.focus(event.value).pipe(
-      concatMap(() => this.navigate(['..', event.value], undefined, { relativeTo: this.route }))
-    );
+    this.navigate(['..', event.value], undefined, { relativeTo: this.route })
+  }
+
+  constructor() {
+    effect(() => this.focus(this.tenantId()), { allowSignalWrites: true });
   }
 }

@@ -1,3 +1,4 @@
+import { del } from 'object-path-immutable';
 import { PermissionService } from "@/app/services";
 import { PermissionDomains } from "@/lib/index";
 import { EnvironmentProviders, inject, Injectable, makeEnvironmentProviders } from "@angular/core";
@@ -5,12 +6,7 @@ import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/st
 import { patch } from "@ngxs/store/operators";
 import moment from 'moment';
 import { EMPTY, retry, tap } from "rxjs";
-import { RefreshDomainPermissions } from "./actions";
-
-// function parseDomainParams(params: string): [PermissionDomains, number] {
-//     const [domain, identifier] = params.split(':');
-//     return [domain as PermissionDomains, Number(identifier)];
-// }
+import { ClearPermissions, RefreshDomainPermissions } from "./actions";
 
 export function serializeDomainParams(domain: PermissionDomains | string, identifier: number | string) {
     return [domain, identifier].join(':');
@@ -21,9 +17,7 @@ export type CachedPermissions = {
     ttl: Date;
 }
 
-export type PermissionStateModel = {
-    cachedPermissions: Record<string, CachedPermissions>;
-}
+export type PermissionStateModel = Record<string, CachedPermissions>
 
 export const PERMISSIONS = new StateToken<PermissionStateModel>('permissions');
 type Context = StateContext<PermissionStateModel>;
@@ -31,31 +25,32 @@ type Context = StateContext<PermissionStateModel>;
 @Injectable()
 @State({
     name: PERMISSIONS,
-    defaults: {
-        cachedPermissions: {}
-    }
+    defaults: {}
 })
 class PermissionState {
     private readonly permissionService = inject(PermissionService);
+
+    @Action(ClearPermissions)
+    onClearPermissions(ctx: Context, { domain, identifier }: ClearPermissions) {
+        const key = serializeDomainParams(domain, identifier);
+        ctx.setState(del(ctx.getState(), key));
+    }
 
     @Action(RefreshDomainPermissions, { cancelUncompleted: true })
     onRefreshDomainPermissions(ctx: Context, { domain, identifier }: RefreshDomainPermissions) {
         const key = serializeDomainParams(domain, identifier);
         const state = ctx.getState();
-        const currentPermissions = state.cachedPermissions[key];
-        if (currentPermissions && moment(currentPermissions.ttl).isSameOrBefore(moment())) {
-            console.log('currentPermissions', currentPermissions);
+        const currentPermissions = state[key];
+        if (currentPermissions && moment(currentPermissions.ttl).isSameOrAfter(moment())) {
             return EMPTY;
         }
-        return this.permissionService.getPermissionsInDomain(domain, String(identifier)).pipe(
+        return this.permissionService.listPermissions(domain, String(identifier)).pipe(
             retry({ delay: 5000 }),
             tap(permissions => ctx.setState(patch({
-                cachedPermissions: patch({
-                    [key]: {
-                        permissions,
-                        ttl: moment().add(5, 'minutes').toDate()
-                    }
-                })
+                [key]: {
+                    permissions,
+                    ttl: moment().add(5, 'minutes').toDate()
+                }
             })))
         )
     }

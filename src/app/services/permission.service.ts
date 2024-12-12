@@ -5,7 +5,7 @@ import { inject, Injectable } from "@angular/core";
 export class PermissionService {
     private http = inject(HttpClient);
 
-    getPermissionsInDomain(domain: string, identifier: string) {
+    listPermissions(domain: string, identifier: string) {
         return this.http.get<string[]>('/api/permissions/get-relations', {
             params: {
                 domain,
@@ -14,12 +14,12 @@ export class PermissionService {
         })
     }
 
-    listRelations(targetDomain: string, targetIdentifier: string, relations: string[]) {
+    check(targetDomain: string, targetIdentifier: string, permissions: string[]) {
         return this.http.get<{ allowed: boolean }>('/api/permissions/check-relations', {
             params: {
                 id: targetIdentifier,
                 domain: targetDomain,
-                relations: relations.join(',')
+                relations: permissions.join(',')
             }
         })
     }

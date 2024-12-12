@@ -1,9 +1,11 @@
 import { TenantService } from "@/app/services";
 import { dto } from "@/lib/api";
+import { PermissionDomains } from "@/lib/index";
 import { EnvironmentProviders, inject, Injectable, makeEnvironmentProviders } from "@angular/core";
 import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/store";
 import { append, patch } from "@ngxs/store/operators";
 import { EMPTY, tap } from "rxjs";
+import { RefreshDomainPermissions } from "../permissions/actions";
 import { CreateTenant, FocusTenant, LoadTenants, TenantChanged } from "./actions";
 
 export type TenantStateModel = {
@@ -41,6 +43,8 @@ class TenantState {
             );
         }
         ctx.dispatch(TenantChanged);
+        if (id !== undefined)
+            ctx.dispatch(new RefreshDomainPermissions(PermissionDomains.Tenant, id));
         return EMPTY;
     }
 

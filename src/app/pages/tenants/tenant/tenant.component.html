@@ -5,18 +5,26 @@
         </ng-template>
         <ng-template #postBrand>
             <p-select (onChange)="onFocusChanged($event)" [options]="tenants()" optionLabel="name" optionValue="id"
-                [ngModel]="tenantAsNumber()" size="small" />
+                [ngModel]="tenant()" size="small" />
         </ng-template>
     </sc-shell-top-nav>
     <p-tabs [value]="$any(route.firstChild?.routeConfig?.path)">
         <p-tablist>
-            @for (route of permittedTabs(); track $index) {
-            <p-tab [value]="$any(route.path)" [routerLink]="route.path">
-                @if(route.data?.['icon']) {
-                <i [class]="route.data?.['icon']"></i>
+            @defer(when !focusChanging()) {
+                @for (route of tabbedRoutes(); track $index) {
+                    <p-tab [value]="$any(route.path)" [routerLink]="route.path">
+                        @if(route.data?.['icon']) {
+                        <i [class]="route.data?.['icon']"></i>
+                        }
+                        <span>{{ route.title }}</span>
+                    </p-tab>
+                    }
+            }@placeholder {
+                @for(route of childRoutes; track $index){
+                    <p-tab>
+                        <p-progress-spinner strokeWidth="5" fill="transparent" animationDuration=".5s" styleClass="w-3 h-3" />
+                    </p-tab>
                 }
-                <span>{{ route.title }}</span>
-            </p-tab>
             }
         </p-tablist>
     </p-tabs>
