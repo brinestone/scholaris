@@ -1,0 +1,11 @@
+<div class="flex flex-col items-center gap-4">
+    <h1 class="text-center font-bold text-9xl tracking-widest text-primary ">403</h1>
+    <p class="text-center font-light text-2xl text-muted-color max-w-[50%]">You currently don't have the permissions
+        required to
+        access the requested resource.
+    </p>
+    <div class="flex items-center justify-center gap-4 w-full">
+        <p-button (onClick)="onBackButtonClicked()" icon="pi pi-arrow-left" [text]="true" label="Go back" />
+        <p-button routerLink="/" icon="pi pi-home" [text]="true" iconPos="right" label="Go Home" />
+    </div>
+</div>

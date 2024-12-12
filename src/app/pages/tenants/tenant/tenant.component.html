@@ -4,13 +4,13 @@
             <p-button [routerLink]="['..']" [relativeTo]="route" icon="pi pi-chevron-left" size="small" [text]="true" />
         </ng-template>
         <ng-template #postBrand>
-            <p-select [options]="tenants()" optionLabel="name" optionValue="id" [ngModel]="focusedTenant"
-                size="small" />
+            <p-select (onChange)="onFocusChanged($event)" [options]="tenants()" optionLabel="name" optionValue="id"
+                [ngModel]="tenantAsNumber()" size="small" />
         </ng-template>
     </sc-shell-top-nav>
     <p-tabs [value]="$any(route.firstChild?.routeConfig?.path)">
         <p-tablist>
-            @for (route of defaultTabs; track $index) {
+            @for (route of permittedTabs(); track $index) {
             <p-tab [value]="$any(route.path)" [routerLink]="route.path">
                 @if(route.data?.['icon']) {
                 <i [class]="route.data?.['icon']"></i>

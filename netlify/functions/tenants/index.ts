@@ -1,11 +1,7 @@
-import cookieParser from 'cookie-parser';
-import express, { Request, Response, Router } from 'express';
-import expressContext from "express-request-context";
-import serverless from 'serverless-http';
+import { Request, Response, Router } from 'express';
 import { auth } from '../middleware/auth';
 import { provideClient } from '../utils/api-provider';
-import { handleApiError } from '../utils/helpers';
-import { json, urlencoded } from 'body-parser';
+import { handleApiError, prepareFunction } from '../utils/helpers';
 
 async function findSubscribedTenants(req: Request, response: Response) {
     const client = provideClient(req);
@@ -49,7 +45,4 @@ router.get('/', auth, findSubscribedTenants);
 router.get('/name-available', isNameAvailable);
 router.post('/', auth, createNewTenant);
 
-const api = express();
-api.use(cookieParser(), expressContext(), json(), urlencoded({ extended: true }));
-api.use('/api/tenants', router);
-export const handler = serverless(api);
+export const handler = prepareFunction('tenants', router);

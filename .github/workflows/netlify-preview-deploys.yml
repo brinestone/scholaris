@@ -44,4 +44,4 @@ jobs:
         if: steps.setup-cache.outputs.cache-hit != 'true'
         run: pnpm i
       - name: Build ⚙️ & Deploy ⬆️
-        run: netlify deploy --alias=${{ github.ref_name }} --build --context deploy-preview
+        run: netlify deploy --alias=${{ github.ref_name }} --build --context deploy-preview --message=${{ github.event.head_commit.message }}

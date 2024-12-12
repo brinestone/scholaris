@@ -8,6 +8,12 @@ import { handleErrorResponse } from "src/utils/handle-http-error";
 export class TenantService {
     private http = inject(HttpClient);
 
+    lookupTenant(id: number) {
+        return this.http.get<dto.TenantLookup>(`/api/tenants/${id}`).pipe(
+            catchError(handleErrorResponse)
+        );
+    }
+
     createTenant(name: string, captcha: string) {
         return this.http.post('/api/tenants', { name, captcha }).pipe(
             switchMap(() => this.loadSubscribedTenants()),

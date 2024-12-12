@@ -2,7 +2,7 @@ import { RecentsFeedComponent } from '@/app/components/recents-feed';
 import { ShellComponent, ShellLeftNavComponent } from '@/app/components/shell';
 import { UserSessionScoreComponent } from '@/app/components/user-session-score';
 import { ClerkUserAvatarDirective, ClerkUserDisplayNameDirective, ClerkUserEmailAddressDirective } from '@/app/directives/clerk';
-import { LoadInstitutions, LoadTenants, Selectors } from '@/app/state';
+import { LoadInstitutions, LoadTenants, subscribedInstitutions, subscribedTenants } from '@/app/state';
 import { SlicePipe } from '@angular/common';
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -27,8 +27,8 @@ export class OverviewComponent implements AfterViewInit {
   showingAllTenants = false;
   showingAllInstitutions = false;
   readonly hasRecentPerformances = signal(false);
-  readonly tenants = select(Selectors.subscribedTenants);
-  readonly institutions = select(Selectors.subscribedInstitutions);
+  readonly tenants = select(subscribedTenants);
+  readonly institutions = select(subscribedInstitutions);
   readonly loadingTenants = toSignal(merge([
     this.actions$.pipe(ofActionDispatched(LoadTenants), map(() => true)),
     this.actions$.pipe(ofActionCompleted(LoadTenants), map(() => false))

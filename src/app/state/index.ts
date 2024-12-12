@@ -1,28 +1,32 @@
-import { createPropertySelectors, Selector } from '@ngxs/store';
-import { TENANTS } from './tenants/state';
-import { dto } from '@/lib/api';
+import { PermissionDomains } from '@/lib/index';
+import { createSelector } from '@ngxs/store';
+import moment from 'moment';
 import { INSTITUTIONS } from './institutions/state';
+import { PERMISSIONS, serializeDomainParams } from './permissions/state';
+import { TENANTS } from './tenants/state';
 
+export * from './institutions/actions';
+export * from './institutions/state';
+export * from './permissions/actions';
+export * from './permissions/state';
 export * from './tenants/actions';
 export * from './tenants/state';
-export * from './institutions/actions';
 
-export class Selectors {
-    private static tenants = createPropertySelectors(TENANTS);
-    private static institutions = createPropertySelectors(INSTITUTIONS);
-
-    @Selector([Selectors.tenants.focus])
-    static focusedTenant(f?: number) {
-        return f
-    }
-
-    @Selector([Selectors.tenants.subscribed])
-    static subscribedTenants(s: dto.TenantLookup[]) {
-        return s;
-    }
-
-    @Selector([Selectors.institutions.subscribed])
-    static subscribedInstitutions(s: dto.InstitutionLookup[]) {
-        return s
-    }
+export function selectDomainPermissionsFor(domain: PermissionDomains, id: string | number) {
+    const key = serializeDomainParams(domain, id);
+    return createSelector([PERMISSIONS], (state) => {
+        const permissions = state.cachedPermissions[key];
+        if (!permissions || moment(permissions.ttl).isBefore(moment())) {
+            return [];
+        }
+        return permissions.permissions;
+    })
 }
+
+export const focusedTenant = createSelector([TENANTS], ({ focus, subscribed }) => {
+    return subscribed.find(t => t.id == focus);
+});
+
+export const subscribedTenants = createSelector([TENANTS], ({ subscribed }) => subscribed);
+
+export const subscribedInstitutions = createSelector([INSTITUTIONS], ({ subscribed }) => subscribed);

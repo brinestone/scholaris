@@ -1,5 +1,7 @@
 {
+    "vsicons.presets.angular": true,
     "files.associations": {
-        "**/*.scss": "tailwindcss"
+        "**/*.scss": "tailwindcss",
+        "**/*.toml": "toml"
     }
 }

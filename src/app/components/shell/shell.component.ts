@@ -46,6 +46,7 @@ export class ShellLeftNavComponent {
   readonly cssClass = 'block col-start-1';
   private readonly breakpointObserver = inject(BreakpointObserver);
   @HostBinding('class.border-[var(--p-content-border-color)]')
+  @HostBinding('class.min-w-[5rem]')
   readonly isSmallDisplay = toSignal(this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.TabletPortrait]).pipe(
     map(state => Object.values(state.breakpoints).reduce((a, b) => a || b))
   ));

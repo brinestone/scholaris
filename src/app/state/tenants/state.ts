@@ -2,13 +2,13 @@ import { TenantService } from "@/app/services";
 import { dto } from "@/lib/api";
 import { EnvironmentProviders, inject, Injectable, makeEnvironmentProviders } from "@angular/core";
 import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/store";
-import { patch } from "@ngxs/store/operators";
-import { tap } from "rxjs";
-import { CreateTenant, LoadTenants } from "./actions";
+import { append, patch } from "@ngxs/store/operators";
+import { EMPTY, tap } from "rxjs";
+import { CreateTenant, FocusTenant, LoadTenants, TenantChanged } from "./actions";
 
 export type TenantStateModel = {
     subscribed: dto.TenantLookup[];
-    focus?: number;
+    focus?: number | string;
 }
 
 export const TENANTS = new StateToken<TenantStateModel>('tenants');
@@ -24,6 +24,25 @@ type Context = StateContext<TenantStateModel>;
 })
 class TenantState {
     private tenantService = inject(TenantService);
+
+    @Action(FocusTenant)
+    onFocusTenant(ctx: Context, { id }: FocusTenant) {
+        const { subscribed } = ctx.getState();
+        ctx.setState(patch({
+            focus: id
+        }));
+
+        if (id !== undefined && !subscribed.some(({ id: _id }) => _id == id)) {
+            return this.tenantService.lookupTenant(Number(id)).pipe(
+                tap(lookup => ctx.setState(patch({
+                    subscribed: append([lookup])
+                }))),
+                tap(() => ctx.dispatch(TenantChanged))
+            );
+        }
+        ctx.dispatch(TenantChanged);
+        return EMPTY;
+    }
 
     @Action(CreateTenant)
     onCreateTenant(ctx: Context, { captcha, name }: CreateTenant) {
