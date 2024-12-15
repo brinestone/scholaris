@@ -1,4 +1,4 @@
-import { PermissionDomains } from '@/lib/index';
+import { PermissionDomains } from '@/lib/permissions';
 import { inject } from '@angular/core';
 import { RedirectCommand, ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngxs/store';

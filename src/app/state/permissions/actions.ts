@@ -1,4 +1,4 @@
-import { PermissionDomains } from "@/lib/index";
+import { PermissionDomains } from "@/lib/permissions";
 
 const prefix = '[permissions]';
 export class RefreshDomainPermissions {

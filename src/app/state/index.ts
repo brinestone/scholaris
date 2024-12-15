@@ -3,7 +3,7 @@ import moment from 'moment';
 import { INSTITUTIONS } from './institutions/state';
 import { CachedPermissions, PERMISSIONS, serializeDomainParams } from './permissions/state';
 import { TENANTS } from './tenants/state';
-import { PermissionDomains } from '@/lib/index';
+import { PermissionDomains } from '@/lib/permissions';
 
 export * from './institutions/actions';
 export * from './institutions/state';
@@ -11,6 +11,11 @@ export * from './permissions/actions';
 export * from './permissions/state';
 export * from './tenants/actions';
 export * from './tenants/state';
+
+export const focusedTenant = createSelector([TENANTS], ({ focus, subscribed }) => {
+    if (focus === undefined) return undefined;
+    return subscribed.find(({ id }) => Number(focus) == id);
+})
 
 export function selectDomainPermissionsFor(domain: PermissionDomains, id: string | number) {
     const key = serializeDomainParams(domain, id);
@@ -35,7 +40,7 @@ export const focusedTenantPermissions = createSelector([PERMISSIONS, TENANTS], (
     return permissions.permissions;
 })
 
-export const focusedTenant = createSelector([TENANTS], ({ focus, subscribed }) => {
+export const focusedTenantId = createSelector([TENANTS], ({ focus, subscribed }) => {
     return subscribed.find(t => t.id == focus);
 });
 

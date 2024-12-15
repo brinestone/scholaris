@@ -1,0 +1,12 @@
+:host {
+    @apply grid grid-rows-[auto_1fr] w-full;
+}
+
+dl {
+    dt {
+        @apply text-muted-color text-sm inline-block;
+    }
+    dd {
+        @apply mb-2 -mt-1
+    }
+}

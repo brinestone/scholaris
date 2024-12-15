@@ -1,4 +1,3 @@
-export * from './api';
 export enum TenantPermissions {
     CanChangeOwner = "can_change_owner",
     CanCreateForms = "can_create_forms",
@@ -14,6 +13,7 @@ export enum TenantPermissions {
     CanViewMembers = "can_view_members",
     CanViewSettings = "can_view_settings",
     CanUploadFile = "can_upload_file",
+    CanViewInstitutions = "can_view_institutions"
 }
 
 export enum PermissionDomains {

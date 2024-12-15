@@ -1,6 +1,6 @@
 import { del } from 'object-path-immutable';
 import { PermissionService } from "@/app/services";
-import { PermissionDomains } from "@/lib/index";
+import { PermissionDomains } from "@/lib/permissions";
 import { EnvironmentProviders, inject, Injectable, makeEnvironmentProviders } from "@angular/core";
 import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/store";
 import { patch } from "@ngxs/store/operators";
@@ -49,7 +49,7 @@ class PermissionState {
             tap(permissions => ctx.setState(patch({
                 [key]: {
                     permissions,
-                    ttl: moment().add(5, 'minutes').toDate()
+                    ttl: moment().add(24, 'hours').toDate()
                 }
             })))
         )

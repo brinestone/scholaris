@@ -1,10 +1,19 @@
+import { json, urlencoded } from "body-parser";
 import cookieParser from "cookie-parser";
+import { createHash } from "crypto";
 import express, { Response, Router } from "express";
 import expressContext from "express-request-context";
-import { json, urlencoded } from "body-parser";
-import serverless from 'serverless-http';
 import { join } from "path";
-import { APIError } from "@/lib/api";
+import serverless from 'serverless-http';
+import { APIError } from "../../../lib/api";
+
+export function hashThese(...params: unknown[]) {
+    const md5 = createHash('md5');
+    const challenge = params.map(p => String(p)).join(',');
+    md5.update(challenge);
+    const digest = md5.digest().toString('hex');
+    return digest
+}
 
 export function handleApiError(e: unknown, res: Response) {
     if (e instanceof APIError) {

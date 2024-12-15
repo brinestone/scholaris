@@ -1,6 +1,6 @@
 import { TenantService } from "@/app/services";
 import { dto } from "@/lib/api";
-import { PermissionDomains } from "@/lib/index";
+import { PermissionDomains } from "@/lib/permissions";
 import { EnvironmentProviders, inject, Injectable, makeEnvironmentProviders } from "@angular/core";
 import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/store";
 import { append, patch } from "@ngxs/store/operators";

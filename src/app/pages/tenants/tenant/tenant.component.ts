@@ -15,12 +15,13 @@ import { Select, SelectChangeEvent } from 'primeng/select';
 import { TabsModule } from 'primeng/tabs';
 import { map, merge } from 'rxjs';
 import { ShellTopNav } from "../../../components/shell/shell.component";
-import { PermissionDomains } from '@/lib/index';
+import { PermissionDomains } from '@/lib/permissions';
+import { Tag } from 'primeng/tag';
 
 @Component({
   selector: 'sc-tenant',
   standalone: true,
-  imports: [ShellComponent, ProgressSpinner, TabsModule, FormsModule, RouterLink, RouterOutlet, ShellTopNav, Select, Button],
+  imports: [ShellComponent, ProgressSpinner,Tag, TabsModule, FormsModule, RouterLink, RouterOutlet, ShellTopNav, Select, Button],
   templateUrl: './tenant.component.html',
   styleUrl: './tenant.component.scss'
 })

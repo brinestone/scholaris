@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 import { urlIdCheckMatchGuard } from "./guards/url-match.guard";
 import { tenantPageRoutes } from "./pages/tenants/tenant/tenant-page.routes";
 import { PermissionDescription } from "../models";
-import { PermissionDomains, TenantPermissions } from "@/lib/index";
+import { PermissionDomains, TenantPermissions } from "@/lib/permissions";
 import { tenantChildPermissionGuard, tenantRootPermissionGuard } from "./guards/permission.guard";
 
 const tenantRoutes: Routes = [

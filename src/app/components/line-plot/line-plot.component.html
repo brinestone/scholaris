@@ -1,0 +1,10 @@
+<svg class="block w-full h-full">
+    <g #gx [attr.transform]="'transform(0,' + (ref.nativeElement.clientHeight - marginBottom()) +')'" />
+    <g #gy [attr.transform]="'transform(' + marginLeft() + ',0)'" />
+    <path fill="none" stroke="currentColor" strokeWidth="1.5" [attr.d]="plotLine()" />
+    <g fill="white" stroke="currentColor" strokeWidth="1.5">
+        @for(d of data(); track d) {
+        <circle [attr.cx]="x()($index)" [attr.cy]="y()($index)" r="2.5" />
+        }
+    </g>
+</svg>

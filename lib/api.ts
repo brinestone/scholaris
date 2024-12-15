@@ -1353,6 +1353,7 @@ export namespace dto {
         id: number
         createdAt: string
         updatedAt: string
+        subscriptionPlan: string
     }
 
     export interface TenantNameAvailableRequest {
