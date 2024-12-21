@@ -6,10 +6,12 @@ import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/st
 import { append, patch } from "@ngxs/store/operators";
 import { EMPTY, tap } from "rxjs";
 import { RefreshDomainPermissions } from "../permissions/actions";
-import { CreateTenant, FocusTenant, LoadTenants, TenantChanged } from "./actions";
+import { CreateTenant, FocusTenant, InviteNewMember, LoadMembers, LoadTenants, TenantChanged } from "./actions";
+import { SignedOut } from "../user/actions";
 
 export type TenantStateModel = {
     subscribed: dto.TenantLookup[];
+    members: dto.TenantMembershipLookup[];
     focus?: number | string;
 }
 
@@ -17,15 +19,48 @@ export const TENANTS = new StateToken<TenantStateModel>('tenants');
 
 type Context = StateContext<TenantStateModel>;
 
+const defaultState = {
+    subscribed: [],
+    members: []
+};
 @Injectable()
 @State({
     name: TENANTS,
-    defaults: {
-        subscribed: []
-    }
+    defaults: defaultState
 })
 class TenantState {
     private tenantService = inject(TenantService);
+
+    @Action(SignedOut)
+    onUserSignedOut(ctx: Context) {
+        ctx.setState(defaultState);
+    }
+
+    @Action(InviteNewMember)
+    onInviteNewMember(ctx: Context, { captcha, displayName, email, errorRedirect, onboardingRedirect, successRedirect, phone }: InviteNewMember) {
+        const { focus } = ctx.getState();
+        if (!focus) {
+            ctx.setState(patch({ members: [] }))
+            return EMPTY;
+        }
+
+        return this.tenantService.createMemberInvitation(Number(focus), captcha, errorRedirect, onboardingRedirect, successRedirect, displayName, email, phone).pipe(
+            tap(members => ctx.setState(patch({ members })))
+        )
+    }
+
+    @Action(LoadMembers)
+    onLoadMembers(ctx: Context) {
+        const { focus } = ctx.getState();
+        if (!focus) {
+            ctx.setState(patch({ members: [] }))
+            return EMPTY;
+        };
+
+        return this.tenantService.loadMemberships(Number(focus)).pipe(
+            tap(members => ctx.setState(patch({ members })))
+        )
+    }
 
     @Action(FocusTenant)
     onFocusTenant(ctx: Context, { id }: FocusTenant) {

@@ -8,7 +8,7 @@ import { handleApiError, hashThese, prepareFunction } from "../utils/helpers";
 const cache = new LRUCache<string, string[]>({
     max: 500,
     maxSize: 5000,
-    sizeCalculation: (v) => v.length,
+    sizeCalculation: (v) => v?.length,
     ttl: 3_600_000 * 24
 });
 
