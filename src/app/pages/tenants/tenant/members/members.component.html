@@ -1,1 +1,61 @@
-<p>members works!</p>
+<div class="container mx-auto pt-4">
+    <p-table #dt [rows]="8" [paginator]="true" [globalFilterFields]="['displayName', 'email','role','phone']"
+        [scrollable]="true" scrollHeight="500px" [showGridlines]="true" [value]="members()" dataKey="invitation">
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5" class="text-center">No data</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="caption">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-semibold">Members</h1>
+                <div class="flex items-center gap-3">
+                    <p-button (onClick)="showMemberInvitationDialog()" icon="pi pi-plus" size="small" [text]="true" />
+                    <p-iconfield>
+                        <p-inputicon styleClass="pi pi-search" />
+                        <input (input)="dt.filterGlobal($any($event.target).value, 'contains')" pInputText
+                            placeholder="Filter" type="search" size="small">
+                    </p-iconfield>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Date Joined</th>
+                <th>Role</th>
+                <!-- <th></th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-member let-editing="editing" let-index="rowIndex">
+            <tr>
+                <td>
+                    <div class="flex items-center gap-3">
+                        <p-avatar shape="circle" [image]="member.avatar" />
+                        {{ member.displayName ?? 'N/A' }}
+                    </div>
+                </td>
+                <td><a href="mailto:{{ member.email }}">{{ member.email }}</a></td>
+                <td>{{ member.phone ?? 'N/A' }}</td>
+                <td>@if(member.invitationStatus === 'pending') {
+                    <p-tag severity="warn">{{ member.invitationStatus }}</p-tag>
+                    }@else {
+                    {{ member.joinedAt | date }}
+                    }
+                </td>
+                <td class="capitalize">{{ member.role }}</td>
+                <!-- <td>
+                    <div class="flex items-center gap-3">
+                        <p-button (onClick)="userActions.toggle($event)" [rounded]="true" icon="pi pi-ellipsis-v"
+                            [text]="true" size="small" />
+                        <p-menu appendTo="body" #userActions [model]="[
+                            {label: 'Delete user', icon: 'pi pi-trash'}
+                        ]" [popup]="true" />
+                    </div>
+                </td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

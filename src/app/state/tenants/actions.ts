@@ -1,4 +1,13 @@
-const prefix = '[tenants]'
+const prefix = '[tenants]';
+
+export class InviteNewMember {
+    static type = `${prefix} invite member`;
+    constructor(readonly captcha: string, readonly email: string, readonly displayName: string, readonly onboardingRedirect: string, readonly errorRedirect: string, readonly successRedirect: string, readonly phone?: string) { }
+}
+
+export class LoadMembers {
+    static type = `${prefix} load memberships`;
+}
 export class LoadTenants {
     static type = `${prefix} load subscribed`;
 }

@@ -1,6 +1,7 @@
 <sc-shell>
     <div class="space-y-3 pt-4 md:pl-4 px-4">
-        <section class="border border-[var(--p-content-border-color)] rounded justify-between p-3 flex items-center gap-4">
+        <section
+            class="border border-[var(--p-content-border-color)] rounded justify-between p-3 flex items-center gap-4">
             <div class="flex items-center gap-3">
                 <img clAvatar width="100" class="rounded-full">
                 <div class="space-y-3">
@@ -26,6 +27,7 @@
             </p-fluid>
         </section>
     </div>
+    @if(loadingTenants() || loadingInstitutions() || institutions().length > 0 || tenants().length > 0) {
     <sc-shell-left-nav>
         <h1 class="text-xl font-bold mt-3">Menu</h1>
         <ul class="w-full space-y-3 mt-3">
@@ -74,4 +76,5 @@
             }
         </ul>
     </sc-shell-left-nav>
+    }
 </sc-shell>

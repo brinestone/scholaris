@@ -12,6 +12,10 @@ export * from './permissions/state';
 export * from './tenants/actions';
 export * from './tenants/state';
 
+export const focusedTenantMemberships = createSelector([TENANTS], (state) => {
+    return state.members
+})
+
 export const focusedTenant = createSelector([TENANTS], ({ focus, subscribed }) => {
     if (focus === undefined) return undefined;
     return subscribed.find(({ id }) => Number(focus) == id);
