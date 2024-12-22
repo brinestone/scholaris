@@ -12,7 +12,6 @@ import { DialogService, DynamicDialog, DynamicDialogRef } from 'primeng/dynamicd
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
-import { Menu } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { concatMap, retry } from 'rxjs';
@@ -21,9 +20,8 @@ import { MemberInvitationFormComponent } from '../member-invitation-form/member-
 
 @Component({
   selector: 'sc-members',
-  standalone: true,
   providers: [DialogService],
-  imports: [TableModule,Menu, DynamicDialog, FormsModule, InputText, Avatar, Button, DatePipe, Tag, IconField, InputIcon, InputText],
+  imports: [TableModule, DynamicDialog, FormsModule, InputText, Avatar, Button, DatePipe, Tag, IconField, InputIcon, InputText],
   templateUrl: './members.component.html',
   styleUrl: './members.component.scss'
 })

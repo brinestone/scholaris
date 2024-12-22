@@ -15,12 +15,11 @@ import { environment } from 'src/environments/environment.development';
 import { PreferencesFormComponent } from '../preferences-form/preferences-form.component';
 
 @Component({
-  selector: 'sc-app-wide-alert',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'sc-app-wide-alert',
+    imports: [],
+    template: `
     <ng-content/>
-  `,
+  `
 })
 export class AppWideAlertComponent {
   @HostBinding('className')
@@ -28,18 +27,17 @@ export class AppWideAlertComponent {
 }
 
 @Component({
-  selector: 'sc-shell-left-nav',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'sc-shell-left-nav',
+    imports: [],
+    template: `
       <ng-content/> 
   `,
-  host: {
-    '[class.border]': '!isSmallDisplay()',
-    '[class.border-l-0]': '!isSmallDisplay()',
-    '[class.border-y-0]': '!isSmallDisplay()',
-    '[class.ml-5]': '!isSmallDisplay()',
-  }
+    host: {
+        '[class.border]': '!isSmallDisplay()',
+        '[class.border-l-0]': '!isSmallDisplay()',
+        '[class.border-y-0]': '!isSmallDisplay()',
+        '[class.ml-5]': '!isSmallDisplay()',
+    }
 })
 export class ShellLeftNavComponent {
   @HostBinding('class')
@@ -53,10 +51,9 @@ export class ShellLeftNavComponent {
 }
 
 @Component({
-  selector: 'sc-shell-right-nav',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'sc-shell-right-nav',
+    imports: [],
+    template: `
     <ng-content/>
   `
 })
@@ -66,10 +63,9 @@ export class ShellRightNavComponent {
 }
 
 @Component({
-  selector: 'sc-shell-footer',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'sc-shell-footer',
+    imports: [],
+    template: `
   <div class="container mx-auto">
     <ng-content/>
 </div>
@@ -81,10 +77,9 @@ export class ShellFooterComponent {
 }
 
 @Component({
-  selector: 'sc-shell-top-nav',
-  standalone: true,
-  imports: [NgTemplateOutlet, RouterLink],
-  template: `
+    selector: 'sc-shell-top-nav',
+    imports: [NgTemplateOutlet, RouterLink],
+    template: `
   @for(child of preBrandItems();track $index) {
       <ng-container [ngTemplateOutlet]="child"/>
       @if(!$last) {
@@ -104,7 +99,7 @@ export class ShellFooterComponent {
       }
     }
   `,
-  styles: `
+    styles: `
     :host {
       display: flex;
       align-items: center;
@@ -118,11 +113,10 @@ export class ShellTopNav {
 }
 
 @Component({
-  selector: 'sc-shell',
-  standalone: true,
-  imports: [NgTemplateOutlet, Menu, PreferencesFormComponent, ButtonModule, ClerkUserButtonDirective, DialogModule, DrawerModule, RouterLink, TooltipModule],
-  templateUrl: './shell.component.html',
-  styleUrl: './shell.component.scss'
+    selector: 'sc-shell',
+    imports: [NgTemplateOutlet, Menu, PreferencesFormComponent, ButtonModule, ClerkUserButtonDirective, DialogModule, DrawerModule, RouterLink, TooltipModule],
+    templateUrl: './shell.component.html',
+    styleUrl: './shell.component.scss'
 })
 export class ShellComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);

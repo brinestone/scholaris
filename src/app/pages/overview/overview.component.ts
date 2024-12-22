@@ -15,11 +15,10 @@ import { identity, map, merge, mergeMap } from 'rxjs';
 
 
 @Component({
-  selector: 'app-overview',
-  standalone: true,
-  imports: [Fluid, SlicePipe, Skeleton, UserSessionScoreComponent, RouterLink, ButtonModule, RecentsFeedComponent, ShellComponent, ClerkUserEmailAddressDirective, ClerkUserDisplayNameDirective, ClerkUserAvatarDirective, ShellLeftNavComponent],
-  templateUrl: './overview.component.html',
-  styleUrl: './overview.component.scss'
+    selector: 'app-overview',
+    imports: [Fluid, SlicePipe, Skeleton, UserSessionScoreComponent, RouterLink, ButtonModule, RecentsFeedComponent, ShellComponent, ClerkUserEmailAddressDirective, ClerkUserDisplayNameDirective, ClerkUserAvatarDirective, ShellLeftNavComponent],
+    templateUrl: './overview.component.html',
+    styleUrl: './overview.component.scss'
 })
 export class OverviewComponent implements AfterViewInit {
   private readonly store = inject(Store);

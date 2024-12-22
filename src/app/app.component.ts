@@ -7,12 +7,11 @@ import { Toast } from 'primeng/toast';
 import { map } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'app-root',
-  imports: [RouterOutlet, Toast],
-  providers: [MessageService],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [RouterOutlet, Toast],
+    providers: [MessageService],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);

@@ -8,11 +8,10 @@ import { InputText } from 'primeng/inputtext';
 import { Message } from 'primeng/message';
 
 @Component({
-  selector: 'sc-member-invitation-form',
-  standalone: true,
-  imports: [ReactiveFormsModule, Message, Fluid, InputText, Button, RecaptchaV3Module],
-  templateUrl: './member-invitation-form.component.html',
-  styleUrl: './member-invitation-form.component.scss'
+    selector: 'sc-member-invitation-form',
+    imports: [ReactiveFormsModule, Message, Fluid, InputText, Button, RecaptchaV3Module],
+    templateUrl: './member-invitation-form.component.html',
+    styleUrl: './member-invitation-form.component.scss'
 })
 export class MemberInvitationFormComponent {
   private readonly recaptchaService = inject(ReCaptchaV3Service);

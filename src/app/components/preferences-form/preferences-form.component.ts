@@ -5,11 +5,10 @@ import { Select } from 'primeng/select';
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'sc-preferences-form',
-  standalone: true,
-  imports: [Select],
-  templateUrl: './preferences-form.component.html',
-  styleUrl: './preferences-form.component.scss'
+    selector: 'sc-preferences-form',
+    imports: [Select],
+    templateUrl: './preferences-form.component.html',
+    styleUrl: './preferences-form.component.scss'
 })
 export class PreferencesFormComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
