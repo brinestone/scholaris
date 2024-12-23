@@ -26,6 +26,6 @@ const tenantRoutes: Routes = [
         children: tenantPageRoutes,
         loadComponent: () => import('@/app/pages/tenants').then(m => m.TenantComponent)
     },
-    { path: '', pathMatch: 'full', loadComponent: () => import('@/app/pages/tenants').then(m => m.TenantsComponent) }
+    { title: 'Organizations', path: '', pathMatch: 'full', loadComponent: () => import('@/app/pages/tenants').then(m => m.TenantsComponent) }
 ];
 export default tenantRoutes;
