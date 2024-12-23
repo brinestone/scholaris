@@ -29,11 +29,10 @@ function isNameAvailable(evaluator: (value: string) => Observable<{ available: b
 }
 
 @Component({
-  selector: 'sc-new-tenant',
-  standalone: true,
-  imports: [Button, InputText, Message, Fluid, Tag, Divider, ReactiveFormsModule, RecaptchaV3Module],
-  templateUrl: './new-tenant.component.html',
-  styleUrl: './new-tenant.component.scss'
+    selector: 'sc-new-tenant',
+    imports: [Button, InputText, Message, Fluid, Tag, Divider, ReactiveFormsModule, RecaptchaV3Module],
+    templateUrl: './new-tenant.component.html',
+    styleUrl: './new-tenant.component.scss'
 })
 export class NewTenantComponent {
   private readonly http = inject(HttpClient);

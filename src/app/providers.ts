@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
+import { EnvironmentProviders, makeEnvironmentProviders, Provider, provideAppInitializer } from '@angular/core';
 import { DefaultTitleStrategy, TitleStrategy } from '@angular/router';
 import { Clerk } from '@clerk/clerk-js';
 
@@ -20,10 +20,9 @@ export function provideClerk(clerkKey: string): EnvironmentProviders {
             multi: false,
             useValue: client
         },
-        {
-            provide: APP_INITIALIZER,
-            multi: true,
-            useFactory: () => loadClerkClient
-        }
+        provideAppInitializer(() => {
+        const initializerFn = (() => loadClerkClient)();
+        return initializerFn();
+      })
     ])
 }

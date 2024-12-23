@@ -712,9 +712,9 @@ export namespace tenants {
         /**
          * Finds a tenant using its ID
          */
-        public async FindTenant(id: number): Promise<dto.TenantLookup> {
+        public async FindTenant(tenant: number): Promise<dto.TenantLookup> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callAPI("GET", `/tenants/find/${encodeURIComponent(id)}`)
+            const resp = await this.baseClient.callAPI("GET", `/tenants/find/${encodeURIComponent(tenant)}`)
             return await resp.json() as dto.TenantLookup
         }
 
@@ -1422,14 +1422,15 @@ export namespace dto {
         createdAt: string
         updatedAt: string
         subscriptionPlan: string
+        memberCount: number
     }
 
     export interface TenantMembership {
         id?: number
         invite: number
-        user: number
+        user?: number
         tenant: number
-        displayName: string
+        displayName?: string
         email: string
         invitationStatus: string
         role: string
@@ -1443,8 +1444,9 @@ export namespace dto {
     }
 
     export interface TenantMembershipLookup {
+        invitation: number
         id?: number
-        user: number
+        user?: number
         tenant: number
         displayName: string
         email: string

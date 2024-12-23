@@ -4,11 +4,9 @@ import { CurrencyPipe, PercentPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { select } from '@ngxs/store';
 import { Card } from 'primeng/card';
-import { Tag } from 'primeng/tag';
 @Component({
   selector: 'sc-overview',
-  standalone: true,
-  imports: [Tag, Card, CurrencyPipe, PercentPipe],
+  imports: [Card, CurrencyPipe, PercentPipe],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })

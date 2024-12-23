@@ -4,11 +4,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'sc-not-found',
-  standalone: true,
-  imports: [Button, RouterLink],
-  templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.scss'
+    selector: 'sc-not-found',
+    imports: [Button, RouterLink],
+    templateUrl: './not-found.component.html',
+    styleUrl: './not-found.component.scss'
 })
 export class NotFoundComponent {
   private location = inject(Location);

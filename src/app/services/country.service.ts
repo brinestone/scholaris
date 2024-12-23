@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, EnvironmentProviders, Injectable, makeEnvironmentProviders } from "@angular/core";
+import { EnvironmentProviders, Injectable, makeEnvironmentProviders, provideAppInitializer } from "@angular/core";
 
 const dbName = 'countries-db';
 const storeName = 'countries';
@@ -45,11 +45,10 @@ function fillDatabase(db: IDBDatabase) {
 
 export function provideCountryData(): EnvironmentProviders {
     return makeEnvironmentProviders([
-        {
-            provide: APP_INITIALIZER,
-            multi: true,
-            useFactory: () => initializeCountriesDb
-        }
+        provideAppInitializer(() => {
+        const initializerFn = (() => initializeCountriesDb)();
+        return initializerFn();
+      })
     ])
 }
 

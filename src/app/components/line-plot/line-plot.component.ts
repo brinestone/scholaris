@@ -3,11 +3,10 @@ import { Component, computed, effect, ElementRef, inject, input, OnDestroy, sign
 import { axisBottom, extent, line, scaleLinear, select } from 'd3';
 
 @Component({
-  selector: 'sc-line-plot',
-  standalone: true,
-  imports: [],
-  templateUrl: './line-plot.component.html',
-  styleUrl: './line-plot.component.scss'
+    selector: 'sc-line-plot',
+    imports: [],
+    templateUrl: './line-plot.component.html',
+    styleUrl: './line-plot.component.scss'
 })
 export class LinePlot implements OnDestroy {
   // readonly gx = viewChild<ElementRef<SVGGeometryElement>>('gx') as Signal<ElementRef<SVGGeometryElement>>

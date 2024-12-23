@@ -12,18 +12,16 @@ import { DialogService, DynamicDialog, DynamicDialogRef } from 'primeng/dynamicd
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
-import { Menu } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
-import { concatMap, retry } from 'rxjs';
+import { concatMap, EMPTY, retry } from 'rxjs';
 import { errorToToast } from 'src/utils';
 import { MemberInvitationFormComponent } from '../member-invitation-form/member-invitation-form.component';
 
 @Component({
   selector: 'sc-members',
-  standalone: true,
   providers: [DialogService],
-  imports: [TableModule,Menu, DynamicDialog, FormsModule, InputText, Avatar, Button, DatePipe, Tag, IconField, InputIcon, InputText],
+  imports: [TableModule, DynamicDialog, FormsModule, InputText, Avatar, Button, DatePipe, Tag, IconField, InputIcon, InputText],
   templateUrl: './members.component.html',
   styleUrl: './members.component.scss'
 })
@@ -48,6 +46,7 @@ export class MembersComponent implements AfterViewInit, OnDestroy {
 
     this.dialogRef.onClose.pipe(
       concatMap(data => {
+        if (!data) return EMPTY;
         const { captchaToken, displayName, email, phone } = data as TenantMemberInvitationData;
         const successRedirect = `/tenants/member_onboarding?tenant=${this.tenantId}`;
         return this.inviteMember(captchaToken, email, displayName, `${location.origin}/auth/sign-up?return_url=${encodeURIComponent(successRedirect)}`, `${location.origin}/forbidden`, `${location.origin}${successRedirect}`, phone);

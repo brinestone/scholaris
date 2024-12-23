@@ -19,11 +19,10 @@ import { PermissionDomains } from '@/lib/permissions';
 import { Tag } from 'primeng/tag';
 
 @Component({
-  selector: 'sc-tenant',
-  standalone: true,
-  imports: [ShellComponent, ProgressSpinner,Tag, TabsModule, FormsModule, RouterLink, RouterOutlet, ShellTopNav, Select, Button],
-  templateUrl: './tenant.component.html',
-  styleUrl: './tenant.component.scss'
+    selector: 'sc-tenant',
+    imports: [ShellComponent, ProgressSpinner, Tag, TabsModule, FormsModule, RouterLink, RouterOutlet, ShellTopNav, Select, Button],
+    templateUrl: './tenant.component.html',
+    styleUrl: './tenant.component.scss'
 })
 export class TenantComponent implements OnDestroy {
   readonly route = inject(ActivatedRoute);
