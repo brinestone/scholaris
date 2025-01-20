@@ -8,6 +8,10 @@ import { handleErrorResponse } from "src/utils/handle-http-error";
 export class TenantService {
     private http = inject(HttpClient);
 
+    loadSettings(id: number) {
+        return this.http.get<dto.GetSettingsResponse>(`/api/tenants/${id}/settings`);
+    }
+
     createMemberInvitation(id: number, captcha: string, errorRedirect: string, onboardRedirect: string, redirectUrl: string, displayName: string, email: string, phone?: string) {
         return this.http.post<dto.TenantMembershipLookup[]>(`/api/tenants/${id}/invite`, {
             displayName,

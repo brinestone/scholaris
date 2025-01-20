@@ -6,12 +6,13 @@ import { Action, provideStates, State, StateContext, StateToken } from "@ngxs/st
 import { append, patch } from "@ngxs/store/operators";
 import { EMPTY, tap } from "rxjs";
 import { RefreshDomainPermissions } from "../permissions/actions";
-import { CreateTenant, FocusTenant, InviteNewMember, LoadMembers, LoadTenants, TenantChanged } from "./actions";
+import { CreateTenant, FocusTenant, InviteNewMember, LoadMembers, LoadSettings, LoadTenants, TenantChanged } from "./actions";
 import { SignedOut } from "../user/actions";
 
 export type TenantStateModel = {
     subscribed: dto.TenantLookup[];
     members: dto.TenantMembershipLookup[];
+    settings?: dto.GetSettingsResponse;
     focus?: number | string;
 }
 
@@ -30,6 +31,18 @@ const defaultState = {
 })
 class TenantState {
     private tenantService = inject(TenantService);
+
+    @Action(LoadSettings)
+    onLoadTenantSettings(ctx: Context) {
+        const { focus } = ctx.getState();
+        if (!focus) {
+            ctx.setState(patch({ settings: undefined }));
+            return EMPTY;
+        }
+        return this.tenantService.loadSettings(Number(focus)).pipe(
+            tap(settings => ctx.setState(patch({ settings })))
+        );
+    }
 
     @Action(SignedOut)
     onUserSignedOut(ctx: Context) {

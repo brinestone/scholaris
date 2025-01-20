@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { LRUCache } from 'lru-cache';
 import { auth } from "../middleware/auth";
 import { provideClient, provideUserClaims } from "../utils/api-provider";
-import { handleApiError, hashThese, prepareFunction } from "../utils/helpers";
+import { handleApiError, hashThese, prepareHandler } from "../utils/helpers";
 
 const cache = new LRUCache<string, string[]>({
     max: 500,
@@ -83,4 +83,4 @@ const router = Router().use(auth);
 router.get('/check-relations', checkPermissions);
 router.get('/get-relations', getAllDomainPermissions);
 
-export const handler = prepareFunction('permissions', router);
+export const handler = prepareHandler('permissions', router);

@@ -41,18 +41,18 @@ export const tenantPageRoutes: Routes = [
         },
         loadComponent: () => import('./institutions/institutions.component').then(m => m.InstitutionsComponent)
     },
-    {
-        path: 'settings',
-        title: 'Settings',
-        data: {
-            icon: 'pi pi-cog',
-            permissions: {
-                permissions: [TenantPermissions.CanViewSettings],
-                targetDomain,
-                extractIdentifier
-            } as PermissionDescription
-        },
-        loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent)
-    },
+    // {
+    //     path: 'settings',
+    //     title: 'Settings',
+    //     data: {
+    //         icon: 'pi pi-cog',
+    //         permissions: {
+    //             permissions: [TenantPermissions.CanViewSettings],
+    //             targetDomain,
+    //             extractIdentifier
+    //         } as PermissionDescription
+    //     },
+    //     loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent)
+    // },
     { path: '', redirectTo: 'overview', pathMatch: 'full' }
 ]

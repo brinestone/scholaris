@@ -1,9 +1,9 @@
-import { createSelector } from '@ngxs/store';
+import { PermissionDomains } from '@/lib/permissions';
+import { createPropertySelectors, createSelector } from '@ngxs/store';
 import moment from 'moment';
 import { INSTITUTIONS } from './institutions/state';
 import { CachedPermissions, PERMISSIONS, serializeDomainParams } from './permissions/state';
 import { TENANTS } from './tenants/state';
-import { PermissionDomains } from '@/lib/permissions';
 
 export * from './institutions/actions';
 export * from './institutions/state';
@@ -11,6 +11,10 @@ export * from './permissions/actions';
 export * from './permissions/state';
 export * from './tenants/actions';
 export * from './tenants/state';
+
+const tenantPropertySelectors = createPropertySelectors(TENANTS);
+
+export const focusedTenantSettings = tenantPropertySelectors.settings;
 
 export const focusedTenantMemberships = createSelector([TENANTS], (state) => {
     return state.members

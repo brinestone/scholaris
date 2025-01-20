@@ -1,5 +1,9 @@
 const prefix = '[tenants]';
 
+export class LoadSettings {
+    static type = `${prefix} load settings`;
+}
+
 export class InviteNewMember {
     static type = `${prefix} invite member`;
     constructor(readonly captcha: string, readonly email: string, readonly displayName: string, readonly onboardingRedirect: string, readonly errorRedirect: string, readonly successRedirect: string, readonly phone?: string) { }

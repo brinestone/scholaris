@@ -1,7 +1,27 @@
 import { Request, Response, Router } from 'express';
 import { auth } from '../middleware/auth';
 import { provideClient } from '../utils/api-provider';
-import { handleApiError, prepareFunction } from '../utils/helpers';
+import { handleApiError, prepareHandler } from '../utils/helpers';
+import { PermissionDomains } from '@/lib/permissions';
+
+async function getSettings(req: Request, response: Response) {
+    const client = provideClient(req);
+    try {
+        const tenant = Number(req.params['id']);
+        if (isNaN(tenant)) {
+            throw new Error('Invalid id param');
+        }
+
+        const res = await client.settings.FindSettings({
+            Owner: tenant,
+            OwnerType: PermissionDomains.Tenant
+        });
+
+        response.status(200).json(res);
+    } catch (e) {
+        handleApiError(e, response);
+    }
+}
 
 async function createMemberInvitation(req: Request, response: Response) {
     const client = provideClient(req);
@@ -71,5 +91,6 @@ router.get('/name-available', isNameAvailable);
 router.post('/', auth, createNewTenant);
 router.get('/:id/memberships', auth, findTenantMemberships);
 router.post('/:id/invite', auth, createMemberInvitation);
+router.get('/:id/settings', auth, getSettings);
 
-export const handler = prepareFunction('tenants', router);
+export const handler = prepareHandler('tenants', router);

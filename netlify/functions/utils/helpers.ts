@@ -24,7 +24,7 @@ export function handleApiError(e: unknown, res: Response) {
     console.error(e);
 }
 
-export function prepareFunction(prefix: string, router: Router) {
+export function prepareHandler(prefix: string, router: Router) {
     const api = express();
     api.use(cookieParser(), expressContext(), json(), urlencoded({ extended: true }));
     api.use(join('/api', prefix), router);

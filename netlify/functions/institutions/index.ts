@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { auth } from "../middleware/auth";
 import { provideClient } from '../utils/api-provider';
-import { handleApiError, prepareFunction } from '../utils/helpers';
+import { handleApiError, prepareHandler } from '../utils/helpers';
 
 async function findSubscribed(req: Request, res: Response) {
     const client = provideClient(req);
@@ -21,5 +21,5 @@ async function findSubscribed(req: Request, res: Response) {
 const router = Router();
 router.get('/', auth, findSubscribed);
 
-export const handler = prepareFunction('institutions', router)
+export const handler = prepareHandler('institutions', router)
 
