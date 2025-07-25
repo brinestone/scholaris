@@ -17,7 +17,7 @@ const permissionState = providePermissionState(withStorageFeature([
 ]))
 
 export const routes: Routes = [
-    { path: 'auth', loadChildren: () => import('./auth.routes') },
+    { path: 'auth', loadChildren: () => import('./auth.routes').then(m => m.default) },
     {
         providers: [tenantState, institutionState], path: 'overview', title: 'Overview', canActivate: [signedInGuard], loadComponent: () => import('./pages/overview/overview.component').then(m => m.OverviewComponent)
     },
