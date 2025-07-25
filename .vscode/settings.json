@@ -1,7 +1,6 @@
 {
-    "vsicons.presets.angular": true,
-    "files.associations": {
-        "**/*.scss": "tailwindcss",
-        "**/*.toml": "toml"
-    }
+  "files.associations": {
+    "*.scss": "tailwindcss"
+  },
+  "angular.enable-strict-mode-prompt": false
 }

@@ -1,0 +1,23 @@
+{
+  "name": "scholaris",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run --parallel --filter \"./apps/**\" dev",
+    "build": "pnpm run --parallel --filter \"./**\" build",
+    "migrate.local": "pnpm run --parallel --filter \"./**\" migrate.local",
+    "migrate": "pnpm run --parallel --filter \"./**\" migrate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "dependencies": {
+    "zod": "^4.0.10"
+  }
+}

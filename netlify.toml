@@ -1,0 +1,2 @@
+publish = "apps/console/dist/scholaris/browser"
+functions = "apps/api/.netlify"
