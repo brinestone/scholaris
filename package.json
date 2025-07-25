@@ -7,7 +7,8 @@
     "dev": "pnpm run --parallel --filter \"./apps/**\" dev",
     "build": "pnpm run --parallel --filter \"./**\" build",
     "migrate.local": "pnpm run --parallel --filter \"./**\" migrate.local",
-    "migrate": "pnpm run --parallel --filter \"./**\" migrate"
+    "migrate": "pnpm run --parallel --filter \"./**\" migrate",
+    "theme": "pnpm run --filter scholaris theme"
   },
   "keywords": [],
   "author": "",
