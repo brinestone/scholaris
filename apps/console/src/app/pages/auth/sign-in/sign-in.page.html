@@ -1,0 +1,20 @@
+<div hlmCardHeader>
+  <h1 class="text-2xl font-semibold" hlmCardTitle>Sign into Your Account</h1>
+  <p hlmCardDescription>Using your socials</p>
+  <div class="flex items-center gap-3">
+    @for (method of altMethods; track $index) {
+      <button (click)="method.handler()" variant="outline" size="sm" class="rounded-full" hlmBtn>
+        <ng-icon name="bootstrapGoogle" size="15"/>
+        <span>{{ method.label }}</span>
+      </button>
+    }
+  </div>
+</div>
+<brn-separator/>
+<form [formGroup]="form" class="space-y-3 px-4">
+  <hlm-form-field>
+    <input type="email" autocomplete="username" hlmInput placeholder="Email address" formControlName="email">
+    <hlm-error key="required">This field is required</hlm-error>
+    <hlm-error key="email">Invalid email address</hlm-error>
+  </hlm-form-field>
+</form>

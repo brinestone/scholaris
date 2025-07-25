@@ -1,0 +1,7 @@
+@reference "tailwindcss";
+
+:host {
+  @apply flex flex-col items-center justify-start h-full pt-20;
+  color: var(--foreground);
+  background: radial-gradient(circle, transparent 30%, var(--accent) 100%);
+}
