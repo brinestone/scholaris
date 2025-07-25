@@ -11,7 +11,6 @@ import { FormControlName } from '@angular/forms';
   },
 })
 export class HlmErrorDirective {
-  public readonly key = input.required<string>();
   public readonly userClass = input<ClassValue>('', { alias: 'class' });
   private readonly targetMatched = signal(true);
   protected readonly _computedClass = computed(() => hlm('hidden text-destructive text-sm font-medium', this.userClass(), !this.targetMatched() ? 'hidden' : 'block'));

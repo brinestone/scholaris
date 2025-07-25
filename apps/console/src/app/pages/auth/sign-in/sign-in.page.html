@@ -11,10 +11,19 @@
   </div>
 </div>
 <brn-separator/>
-<form [formGroup]="form" class="space-y-3 px-4">
+<form [formGroup]="form" class="space-y-3 px-4 mt-3">
   <hlm-form-field>
     <input type="email" autocomplete="username" hlmInput placeholder="Email address" formControlName="email">
-    <hlm-error key="required">This field is required</hlm-error>
-    <hlm-error key="email">Invalid email address</hlm-error>
+    <hlm-error>
+      @if (form.controls.email.hasError('required')) {
+        This field is required
+      } @else if (form.controls.email.hasError('email')) {
+        Invalid email address
+      }
+    </hlm-error>
+  </hlm-form-field>
+  <hlm-form-field>
+    <input type="password" autocomplete="current-password" hlmInput placeholder="Password" formControlName="password">
+    <hlm-error>This field is required</hlm-error>
   </hlm-form-field>
 </form>

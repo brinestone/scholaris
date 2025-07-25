@@ -6,7 +6,6 @@ import {
   contentChildren,
   effect,
   input,
-  untracked,
 } from '@angular/core';
 import { hlm } from '@spartan-ng/brain/core';
 import { BrnFormFieldControl } from '@spartan-ng/brain/form-field';
@@ -44,17 +43,6 @@ export class HlmFormFieldComponent {
   );
 
   constructor() {
-    effect(() => {
-      const errors = Object.keys(this.control()?.ngControl?.errors ?? {});
-      const children = this.errorChildren();
-      children.forEach(e => {
-        if (errors.includes(untracked(e.key))) {
-          e.show();
-        } else {
-          e.hide();
-        }
-      });
-    })
     effect(() => {
       if (!this.control()) {
         throw new Error('hlm-form-field must contain a BrnFormFieldControl.');
