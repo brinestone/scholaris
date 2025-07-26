@@ -8,7 +8,7 @@ export const UserInfoSchema = z.object({
 
 export const AuthStateModelSchema = z.object({
   principal: UserInfoSchema.optional(),
-  sessionId: z.string().optional(),
+  accessToken: z.jwt().optional(),
   isSignedIn: z.boolean().default(false),
-  sessionExpiresAt: z.number().optional()
+  sessionExpiresAt: z.string().optional()
 });

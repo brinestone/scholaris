@@ -15,12 +15,6 @@ export class HlmErrorDirective {
   private readonly targetMatched = signal(true);
   protected readonly _computedClass = computed(() => hlm('hidden text-destructive text-sm font-medium', this.userClass(), !this.targetMatched() ? 'hidden' : 'block'));
 
-  constructor() {
-    effect(() => {
-      console.log(this._computedClass());
-    });
-  }
-
   show() {
     console.count('show')
     this.targetMatched.set(true);

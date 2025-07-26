@@ -16,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/overview/overview.page').then(m => m.OverviewPage),
   },
   {
+    path: 'tos',
+    title: 'Terms & Conditions',
+    loadComponent: () => import('./pages/tos/tos.page').then(m => m.TosPage),
+  },
+  {
     path: '', pathMatch: 'full', redirectTo: 'overview'
   },
   { path: '**', loadComponent: () => import('./pages/not-found/not-found.page').then(m => m.NotFoundPage) },

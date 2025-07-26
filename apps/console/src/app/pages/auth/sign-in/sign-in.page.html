@@ -1,29 +1,48 @@
-<div hlmCardHeader>
-  <h1 class="text-2xl font-semibold" hlmCardTitle>Sign into Your Account</h1>
-  <p hlmCardDescription>Using your socials</p>
-  <div class="flex items-center gap-3">
-    @for (method of altMethods; track $index) {
-      <button (click)="method.handler()" variant="outline" size="sm" class="rounded-full" hlmBtn>
-        <ng-icon name="bootstrapGoogle" size="15"/>
-        <span>{{ method.label }}</span>
-      </button>
-    }
-  </div>
-</div>
-<brn-separator/>
-<form [formGroup]="form" class="space-y-3 px-4 mt-3">
-  <hlm-form-field>
-    <input type="email" autocomplete="username" hlmInput placeholder="Email address" formControlName="email">
-    <hlm-error>
-      @if (form.controls.email.hasError('required')) {
-        This field is required
-      } @else if (form.controls.email.hasError('email')) {
-        Invalid email address
+<form [formGroup]="form" hlmCard (ngSubmit)="onFormSubmit($event)">
+  <div hlmCardHeader>
+    <h1 class="text-2xl font-semibold" hlmCardTitle>Sign into Your Account</h1>
+    <p hlmCardDescription>Using your socials</p>
+    <div class="flex items-center gap-3">
+      @for (method of altMethods; track $index) {
+        <button type="button" (click)="method.handler()" variant="outline" size="sm" class="rounded-full" hlmBtn>
+          <ng-icon name="bootstrapGoogle" size="15"/>
+          <span>{{ method.label }}</span>
+        </button>
       }
-    </hlm-error>
-  </hlm-form-field>
-  <hlm-form-field>
-    <input type="password" autocomplete="current-password" hlmInput placeholder="Password" formControlName="password">
-    <hlm-error>This field is required</hlm-error>
-  </hlm-form-field>
+    </div>
+  </div>
+  <brn-separator hlmSeparator/>
+  <div hlmCardContent class="space-y-3">
+    <p class="text-sm text-muted-foreground">Or using your credentials</p>
+    <hlm-form-field>
+      <input type="email" autocomplete="username" hlmInput placeholder="Email address" formControlName="email">
+      <hlm-error>
+        @if (form.controls.email.hasError('required')) {
+          This field is required
+        } @else if (form.controls.email.hasError('email')) {
+          Invalid email address
+        }
+      </hlm-error>
+    </hlm-form-field>
+    <hlm-form-field>
+      <input type="password" autocomplete="current-password" hlmInput placeholder="Password" formControlName="password">
+      <hlm-error>This field is required</hlm-error>
+    </hlm-form-field>
+  </div>
+  <brn-separator hlmSeparator/>
+  <div hlmCardFooter>
+    <div class="space-y-2 w-full">
+      <button class="block w-full items-center" [disabled]="signingIn() || form.invalid" type="submit" hlmBtn>
+        <span>Sign in</span>
+      </button>
+      <div><a class="text-sm text-accent-foreground underline" routerLink="../reset-password"
+              [relativeTo]="route">Forgot
+        password</a></div>
+      <div>
+        <a class="text-sm text-accent-foreground underline" queryParamsHandling="preserve" routerLink="../sign-up"
+           [relativeTo]="route">Sign up
+          instead</a>
+      </div>
+    </div>
+  </div>
 </form>
